@@ -15,8 +15,13 @@ type MainMaterialBottomTabsProps = {};
 
 export const MainMaterialBottomTabs = ({}: MainMaterialBottomTabsProps): React.JSX.Element => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="home"  component={HostUserHomeScreen} />
+    <Tab.Navigator initialRouteName="home" labeled={false}>
+      <Tab.Screen
+        name="home"
+        options={{
+          title: 'Home',
+        }}
+        component={HostUserHomeScreen} />
       <Tab.Screen name="player"  component={PlayerUserHomeScreen} />
     </Tab.Navigator>
   );
