@@ -26,3 +26,9 @@ export const MainMaterialBottomTabs = ({}: MainMaterialBottomTabsProps): React.J
     </Tab.Navigator>
   );
 };
+
+
+// TODO: Instalar y configurar Stack Navigator
+// Crear un stack navigator con la vista que se muestra mientras se valida autenticación y otra donde iría el bottom tabs ya creado
+// Cambiar el nombre del componente MainMaterialBottomTabs por MainMaterialBottomTabsNavigator
+// Cambiar el nombre del archivo MainMaterialBottomTabs.tsx por MainMaterialBottomTabsNavigator.tsx
