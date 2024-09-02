@@ -1,7 +1,7 @@
-type Mode = 'light' | 'dark';
+export type ThemeMode = 'light' | 'dark';
 
 export interface IThemeInitialState {
-  mode: Mode;
+  mode: ThemeMode;
   primaryColor: string;
   secondaryColor: string;
 }
