@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IThemeInitialState } from './IThemeInitialState';
+import { IThemeInitialState, ThemeMode } from './IThemeInitialState';
 
 const initialState: IThemeInitialState = {
   mode: 'light',
@@ -12,7 +12,7 @@ const userSlice = createSlice({
   name: 'theme',
   initialState,
   reducers: {
-    toggleTheme: (state, action) => {
+    toggleTheme: (state, action: PayloadAction<ThemeMode>) => {
       state.mode = action.payload;
     },
   },
