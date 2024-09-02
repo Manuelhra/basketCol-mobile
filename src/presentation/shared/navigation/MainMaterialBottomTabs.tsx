@@ -1,8 +1,10 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-import { HostUserHomeScreen } from '../context/users/host/screens/HostUserHomeScreen';
-import { PlayerUserHomeScreen } from '../context/users/player/screens/PlayerUserHomeScreen';
+import { HostUserHomeScreen } from '../../users/host/screens/HostUserHomeScreen';
+import { PlayerUserHomeScreen } from '../../users/player/screens/PlayerUserHomeScreen';
+
+
 
 type MainMaterialBottomTabsNavigatorProps = {
   home: undefined;
