@@ -33,7 +33,7 @@ export abstract class AxiosHttpClient implements IHttpClient {
       });
     } catch (error) {
       if (isAxiosError(error) === true) {
-        return this.handleAxiosError<Response>(error);
+        return this.handleAxiosError<Response>(error as AxiosError);
       }
 
       return this.handleUnknownError<Response>();
@@ -51,7 +51,7 @@ export abstract class AxiosHttpClient implements IHttpClient {
       });
     } catch (error) {
       if (isAxiosError(error) === true) {
-        return this.handleAxiosError<Response>(error);
+        return this.handleAxiosError<Response>(error as AxiosError);
       }
 
       return this.handleUnknownError<Response>();
@@ -69,7 +69,7 @@ export abstract class AxiosHttpClient implements IHttpClient {
       });
     } catch (error) {
       if (isAxiosError(error) === true) {
-        return this.handleAxiosError<Response>(error);
+        return this.handleAxiosError<Response>(error as AxiosError);
       }
 
       return this.handleUnknownError<Response>();
@@ -87,7 +87,7 @@ export abstract class AxiosHttpClient implements IHttpClient {
       });
     } catch (error) {
       if (isAxiosError(error) === true) {
-        return this.handleAxiosError<Response>(error);
+        return this.handleAxiosError<Response>(error as AxiosError);
       }
 
       return this.handleUnknownError<Response>();

@@ -1,22 +1,22 @@
 {
   "env": {
-      "browser": false
+    "browser": false
   },
   "extends": [
-      "airbnb",
-      "airbnb-typescript"
+    "airbnb",
+    "airbnb-typescript"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-      "ecmaFeatures": {
-          "jsx": false
-      },
-      "ecmaVersion": "latest",
-      "sourceType": "module",
-      "project": "./tsconfig.json"
+    "ecmaFeatures": {
+      "jsx": false
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
   "plugins": [
-      "@typescript-eslint"
+    "@typescript-eslint"
   ],
   "rules": {
     "import/no-extraneous-dependencies": "off",
@@ -25,10 +25,20 @@
     "@typescript-eslint/naming-convention": "off",
     "linebreak-style": "off",
     "consistent-return": "error",
-    "max-len":"off",
+    "max-len": "off",
     "import/prefer-default-export": "off",
     "default-case": "off",
     "eslint-plugin-vue/no-empty-pattern": "off",
-    "global-require": "off"
+    "global-require": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+          "state" // Ignora 'state' en los reducers de Redux Toolkit
+        ]
+      }
+    ]
   }
 }

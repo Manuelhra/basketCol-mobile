@@ -1,8 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IThemeInitialState, ThemeMode } from './IThemeInitialState';
 import { lightTheme } from '../../../../config/theme';
 import { ITheme } from '../../../../config/theme/ITheme';
+
+export type ThemeMode = 'light' | 'dark';
+
+export interface IThemeInitialState {
+  mode: ThemeMode;
+  theme: ITheme;
+}
 
 const initialState: IThemeInitialState = {
   mode: 'light',

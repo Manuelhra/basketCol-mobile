@@ -112,5 +112,6 @@ export const getStyles = (appTheme: ITheme) => StyleSheet.create({
     color: appTheme.colors.error,
     fontSize: 14,
     marginBottom: 5,
+    textAlign: 'center',
   },
 });

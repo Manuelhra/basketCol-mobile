@@ -8,3 +8,5 @@ if (awilixAuthenticationContainer === null) {
 }
 
 export const authenticateUserUseCase = awilixAuthenticationContainer.resolve('authenticateUserUseCase');
+export const validateAndRefreshAuthenticationTokenUseCase = awilixAuthenticationContainer.resolve('validateAndRefreshAuthenticationTokenUseCase');
+export const logoutUserUseCase = awilixAuthenticationContainer.resolve('logoutUserUseCase');

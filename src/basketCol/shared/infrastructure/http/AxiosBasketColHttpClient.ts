@@ -1,5 +1,5 @@
 import { Either } from '@basketcol/domain';
-import { isAxiosError } from 'axios';
+import { AxiosError, isAxiosError } from 'axios';
 
 import { IAuthenticationTokenStorage } from '../../../authentication/application/storage/ports/IAuthenticationTokenStorage';
 import { AxiosBasketColHttpClientConfigFactory } from './AxiosBasketColHttpClientConfigFactory';
@@ -46,7 +46,7 @@ export class AxiosBasketColHttpClient extends AxiosHttpClient {
       });
     } catch (error) {
       if (isAxiosError(error) === true) {
-        return this.handleAxiosError<Response>(error);
+        return this.handleAxiosError<Response>(error as AxiosError);
       }
 
       return this.handleUnknownError<Response>();
@@ -62,7 +62,7 @@ export class AxiosBasketColHttpClient extends AxiosHttpClient {
       });
     } catch (error) {
       if (isAxiosError(error) === true) {
-        return this.handleAxiosError<Response>(error);
+        return this.handleAxiosError<Response>(error as AxiosError);
       }
 
       return this.handleUnknownError<Response>();
@@ -78,7 +78,7 @@ export class AxiosBasketColHttpClient extends AxiosHttpClient {
       });
     } catch (error) {
       if (isAxiosError(error) === true) {
-        return this.handleAxiosError<Response>(error);
+        return this.handleAxiosError<Response>(error as AxiosError);
       }
 
       return this.handleUnknownError<Response>();
@@ -94,7 +94,7 @@ export class AxiosBasketColHttpClient extends AxiosHttpClient {
       });
     } catch (error) {
       if (isAxiosError(error) === true) {
-        return this.handleAxiosError<Response>(error);
+        return this.handleAxiosError<Response>(error as AxiosError);
       }
 
       return this.handleUnknownError<Response>();

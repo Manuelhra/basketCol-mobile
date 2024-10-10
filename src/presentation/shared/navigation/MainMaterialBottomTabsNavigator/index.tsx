@@ -7,13 +7,11 @@ import { PlayerUserHomeScreen } from '../../../users/player/screens/PlayerUserHo
 type MainMaterialBottomTabsNavigatorParamList = {
   home: undefined;
   player: undefined;
-}
+};
 
 const Tab = createMaterialBottomTabNavigator<MainMaterialBottomTabsNavigatorParamList>();
 
-type MainMaterialBottomTabsNavigatorProps = {};
-
-export const MainMaterialBottomTabsNavigator = ({}: MainMaterialBottomTabsNavigatorProps): React.JSX.Element => {
+export function MainMaterialBottomTabsNavigator(): React.JSX.Element {
   return (
     <Tab.Navigator initialRouteName="home" labeled={false}>
       <Tab.Screen
@@ -21,12 +19,12 @@ export const MainMaterialBottomTabsNavigator = ({}: MainMaterialBottomTabsNaviga
         options={{
           title: 'Home',
         }}
-        component={HostUserHomeScreen} />
-      <Tab.Screen name="player"  component={PlayerUserHomeScreen} />
+        component={HostUserHomeScreen}
+      />
+      <Tab.Screen name="player" component={PlayerUserHomeScreen} />
     </Tab.Navigator>
   );
-};
-
+}
 
 // TODO: Instalar y configurar Stack Navigator
 // Lograr tipar de manera correcta el useDispatch, que cuando coloque una acción inválida me muestre un error

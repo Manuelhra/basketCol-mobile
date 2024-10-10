@@ -10,6 +10,7 @@ import { store as reduxStore } from './presentation/shared/store/redux/store';
 import { ThemeManagerComponent } from './presentation/shared/components/ThemeManagerComponent';
 import { MainStackNavigator } from './presentation/shared/navigation/MainStackNavigator';
 import { tanStackQueryClient } from './presentation/shared/config/tan-stack-query.config';
+import { AuthenticationProvider } from './presentation/authentication/providers/AuthenticationProvider';
 
 export function BasketColApp(): React.JSX.Element {
   const scheme = useColorScheme();
@@ -19,7 +20,9 @@ export function BasketColApp(): React.JSX.Element {
       <Provider store={reduxStore}>
         <ThemeManagerComponent scheme={scheme}>
           <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <MainStackNavigator />
+            <AuthenticationProvider>
+              <MainStackNavigator />
+            </AuthenticationProvider>
           </NavigationContainer>
         </ThemeManagerComponent>
       </Provider>

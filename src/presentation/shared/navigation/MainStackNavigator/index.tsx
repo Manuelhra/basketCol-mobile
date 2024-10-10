@@ -1,12 +1,14 @@
 import React from 'react';
 import { createStackNavigator, StackCardStyleInterpolator } from '@react-navigation/stack';
 
-import { AuthenticationValidationLoadingScreen } from '../../../authentication/screens/AuthenticationValidationLoadingScreen';
 import { AuthenticateUserScreen } from '../../../authentication/screens/AuthenticateUserScreen';
+import { PublicScreen } from '../../screens/PublicScreen';
+import { SplashScreen } from '../../screens/SplashScreen';
 
 export type MainStackNavigatorParamList = {
-  authenticationValidationLoadingScreen: undefined;
+  splashScreen: undefined;
   authenticateUserScreen: undefined;
+  publicScreen: undefined;
 };
 
 const Stack = createStackNavigator<MainStackNavigatorParamList>();
@@ -20,11 +22,12 @@ export function MainStackNavigator(): React.JSX.Element {
 
   return (
     <Stack.Navigator
-      initialRouteName="authenticateUserScreen"
+      initialRouteName="splashScreen"
       screenOptions={{ headerShown: false, cardStyleInterpolator: fadeAnimation }}
     >
-      <Stack.Screen name="authenticationValidationLoadingScreen" component={AuthenticationValidationLoadingScreen} />
+      <Stack.Screen name="splashScreen" component={SplashScreen} />
       <Stack.Screen name="authenticateUserScreen" component={AuthenticateUserScreen} />
+      <Stack.Screen name="publicScreen" component={PublicScreen} />
     </Stack.Navigator>
   );
 }
