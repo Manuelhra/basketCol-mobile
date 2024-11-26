@@ -3,11 +3,15 @@ import {
   View,
   Text,
   Animated,
+  ImageBackground,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import { getStyles } from './styles';
+import { RootState } from '../../store/redux/rootReducer';
 
 export function SplashScreen() {
+  const appTheme = useSelector((state: RootState) => state.theme.theme);
   const [progress, setProgress] = useState(0);
   const [animation] = useState(new Animated.Value(0));
 
@@ -26,7 +30,6 @@ export function SplashScreen() {
     return () => clearInterval(timer);
   }, []);
 
-  // Animación de pulsar para el título y el texto de carga
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -40,20 +43,28 @@ export function SplashScreen() {
     opacity: animation,
   };
 
-  const styles = getStyles();
+  const styles = getStyles(appTheme);
 
   return (
-    <View style={styles.container}>
-      <Animated.Text style={[styles.title, animatedStyle]}>BasketCol</Animated.Text>
-      <Animated.Text style={[styles.subtitle, animatedStyle]}>¡Prepárate para la acción!</Animated.Text>
+    <ImageBackground
+      source={require('../../assets/images/background-image-splash-screen.jpg')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={styles.overlay}>
+        <Animated.Text style={[styles.title, animatedStyle]}>BasketCol</Animated.Text>
+        <Animated.Text style={[styles.subtitle, animatedStyle]}>
+          ¡Donde comienza la grandeza!
+        </Animated.Text>
 
-      <View style={styles.progressBarContainer}>
-        <Animated.View style={[styles.progressBar, { width: `${progress}%` }]} />
+        <View style={styles.progressBarContainer}>
+          <Animated.View style={[styles.progressBar, { width: `${progress}%` }]} />
+        </View>
+
+        <Text style={styles.loadingText}>
+          {progress < 100 ? 'Preparando tu mejor jugada...' : '¡A la cancha!'}
+        </Text>
       </View>
-
-      <Text style={styles.loadingText}>
-        {progress < 100 ? 'Calentando motores...' : '¡Listo para jugar!'}
-      </Text>
-    </View>
+    </ImageBackground>
   );
 }

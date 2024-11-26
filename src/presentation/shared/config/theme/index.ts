@@ -4,6 +4,8 @@ const lightTheme: ITheme = {
   colors: {
     primary: '#0066CC', // Azul vibrante
     secondary: '#FF6600', // Naranja brillante
+    tertiary: '#E91E63', // Rosa vibrante
+    quaternary: '#9C27B0', // Morado vibrante
     accent: '#FFCC00', // Amarillo intenso
     background: '#FFFFFF',
     text: '#000000',
@@ -34,6 +36,8 @@ const darkTheme: ITheme = {
   colors: {
     primary: '#00A3FF', // Azul neón
     secondary: '#FF8000', // Naranja brillante
+    tertiary: '#E91E63', // Rosa neón
+    quaternary: '#9C27B0', // Morado neón
     accent: '#FFD700', // Dorado
     background: '#121212',
     text: '#FFFFFF',

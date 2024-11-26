@@ -1,5 +1,7 @@
 type ColorScheme = {
   primary: string;
+  tertiary: string;
+  quaternary: string;
   background: string;
   text: string;
   secondary: string;

@@ -13,6 +13,7 @@ type AuthenticationProviderProps = {
 
 export function AuthenticationProvider({ children }: AuthenticationProviderProps): React.JSX.Element {
   const { isAuthenticated, loading } = useSelector((state: RootState) => state.authentication);
+  const [delayCompleted, setDelayCompleted] = useState(false);
   const [authenticationChecked, setAuthenticationChecked] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigation<NavigationProp<MainStackNavigatorParamList>>();
@@ -24,7 +25,19 @@ export function AuthenticationProvider({ children }: AuthenticationProviderProps
   }, [dispatch]);
 
   useEffect(() => {
-    if (authenticationChecked === false || loading === true) { return; }
+    if (authenticationChecked === true && loading === false) {
+      const splashDelay = setTimeout(() => {
+        setDelayCompleted(true);
+      }, 2000);
+
+      return () => clearTimeout(splashDelay);
+    }
+
+    return undefined;
+  }, [authenticationChecked, loading]);
+
+  useEffect(() => {
+    if (delayCompleted === false) { return; }
 
     if (isAuthenticated === false) {
       navigation.reset({
@@ -36,10 +49,10 @@ export function AuthenticationProvider({ children }: AuthenticationProviderProps
     if (isAuthenticated === true) {
       navigation.reset({
         index: 0,
-        routes: [{ name: 'publicScreen' }],
+        routes: [{ name: 'userBottomNavigator' }],
       });
     }
-  }, [isAuthenticated, navigation, authenticationChecked, loading]);
+  }, [isAuthenticated, navigation, delayCompleted]);
 
   return (
     <>

@@ -1,7 +1,6 @@
 import {
   Result,
   Either,
-  DomainError,
   HostUserType,
   AnySystemUserType,
   InvalidUserTypeError,
@@ -14,7 +13,6 @@ import {
 import { AuthenticateUserDTO } from '../dtos/AuthenticateUserDTO';
 import { IAuthenticateUserUseCase } from './ports/IAuthenticateUserUseCase';
 import { IHttpClient } from '../../../shared/application/http/ports/IHttpClient';
-import { IErrorDetail } from '../../../shared/application/http/ports/IErrorApiResponse';
 import { AnySystemUserTypeDTO } from '../../../users/shared/application/dtos/AnySystemUserTypeDTO';
 import { HostUserDomainEntityMapper } from '../../../users/host/application/mappers/HostUserDomainEntityMapper';
 import { LeagueFounderUserDomainEntityMapper } from '../../../users/league-founder/application/mappers/LeagueFounderUserDomainEntityMapper';
@@ -23,6 +21,7 @@ import { RefereeUserDomainEntityMapper } from '../../../users/referee/applicatio
 import { TeamFounderUserDomainEntityMapper } from '../../../users/team-founder/application/mappers/TeamFounderUserDomainEntityMapper';
 import { PlayerUserDTO } from '../../../users/player/application/dtos/PlayerUserDTO';
 import { IAuthenticationTokenStorage } from '../storage/ports/IAuthenticationTokenStorage';
+import { DomainErrorMapper } from '../../../shared/application/mappers/DomainErrorMapper';
 
 type Dependencies = {
   basketColHttpClient: IHttpClient;
@@ -53,7 +52,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
 
     if (httpResult.isLeft) {
       const errorResponseInfo = httpResult.left();
-      return this.#handleHttpError(errorResponseInfo);
+      return DomainErrorMapper.execute(errorResponseInfo);
     }
 
     const successResponseInfo = httpResult.right();
@@ -64,20 +63,6 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
     }
 
     return this.#handleSuccessResponse(successResponseInfo.data);
-  }
-
-  #handleHttpError(errorResponseInfo: { type: string; error?: IErrorDetail; errors?: IErrorDetail[] }): Result<AuthenticationResponse> {
-    if (errorResponseInfo.type === 'single' && errorResponseInfo.error) {
-      const domainError = DomainError.createSingle(errorResponseInfo.error.name, errorResponseInfo.error.details);
-      return Either.left({ type: 'single', error: domainError });
-    }
-
-    if (errorResponseInfo.type === 'multiple' && errorResponseInfo.errors) {
-      const domainErrors = this.#parseMultipleErrors(errorResponseInfo.errors);
-      return Either.left({ type: 'multiple', errors: domainErrors });
-    }
-
-    return Either.left({ type: 'single', error: DomainError.createSingle('UnknownError', 'An unknown error occurred') });
   }
 
   #handleSuccessResponse(data: { authenticatedUser: AnySystemUserTypeDTO; authenticationToken: string }): Result<AuthenticationResponse> {
@@ -109,9 +94,5 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
       default:
         throw InvalidUserTypeError.create(userDTO.type);
     }
-  }
-
-  #parseMultipleErrors(errors: IErrorDetail[]): DomainError[] {
-    return errors.map((error) => DomainError.createSingle(error.name, error.details, error.field));
   }
 }

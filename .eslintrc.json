@@ -31,6 +31,7 @@
     "eslint-plugin-vue/no-empty-pattern": "off",
     "global-require": "off",
     "react/jsx-no-useless-fragment": "off",
+    "react/require-default-props": "off",
     "no-param-reassign": [
       "error",
       {

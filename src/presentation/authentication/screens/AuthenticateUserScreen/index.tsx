@@ -10,12 +10,12 @@ import {
   Modal,
 } from 'react-native';
 import { Text } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { RootState } from '../../../shared/store/redux/rootReducer';
 import { getStyles } from './styles';
 import { useAuthenticateUserScreenLogic } from '../../hooks/useAuthenticateUserScreenLogic';
 import { AuthenticateUserForm } from './AuthenticateUserForm';
+import { MaterialCommunityIcon } from '../../../shared/components/MaterialCommunityIcon';
 
 export function AuthenticateUserScreen(): React.JSX.Element {
   const appTheme = useSelector((state: RootState) => state.theme.theme);
@@ -42,7 +42,7 @@ export function AuthenticateUserScreen(): React.JSX.Element {
 
         <StatusBar translucent backgroundColor="transparent" />
         <ImageBackground
-          source={require('../../assets/images/background-image-user-authentication.jpg')}
+          source={require('../../assets/images/background-image-user-authentication-screen.jpg')}
           style={styles.backgroundImage}
         >
           <View style={styles.glassContainer}>
@@ -51,7 +51,7 @@ export function AuthenticateUserScreen(): React.JSX.Element {
               <View style={styles.glassPaneBorder} />
             </View>
             <ScrollView contentContainerStyle={styles.content}>
-              <Icon name="basketball" size={80} color={appTheme.colors.primary} />
+              <MaterialCommunityIcon name="basketball" size={80} color={appTheme.colors.primary} />
               <Text style={styles.logo}>Basketcol</Text>
 
               {authenticateUserErrorList.length > 0 && (
