@@ -10,7 +10,7 @@ type ThemeManagerComponentProps = {
   scheme: ColorSchemeName;
 };
 
-export const ThemeManagerComponent = ({ scheme, children }: ThemeManagerComponentProps): React.JSX.Element => {
+export function ThemeManagerComponent({ scheme, children }: ThemeManagerComponentProps): React.JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -25,4 +25,4 @@ export const ThemeManagerComponent = ({ scheme, children }: ThemeManagerComponen
       {children}
     </>
   );
-};
+}

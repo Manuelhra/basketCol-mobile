@@ -63,6 +63,7 @@ const authenticationSlice = createSlice({
   reducers: {
     setAuthenticatedUser: (state, action: PayloadAction<IAnySystemUserTypePrimitives>) => {
       state.authenticatedUser = action.payload;
+      state.isAuthenticated = true;
       state.errors = [];
     },
     setErrors: (state, action: PayloadAction<IDomainErrorPrimitives[]>) => {
@@ -73,6 +74,7 @@ const authenticationSlice = createSlice({
     },
     logout: (state) => {
       state.authenticatedUser = null;
+      state.isAuthenticated = false;
       state.errors = [];
     },
   },
@@ -91,6 +93,7 @@ const authenticationSlice = createSlice({
         state.loading = false;
         state.errors = action.payload as IDomainErrorPrimitives[];
         state.isAuthenticated = false;
+        state.authenticatedUser = null;
       })
       .addCase(logoutUser.pending, (state) => {
         state.loading = true;

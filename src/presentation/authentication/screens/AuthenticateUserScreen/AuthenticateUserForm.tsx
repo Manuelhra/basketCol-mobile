@@ -11,10 +11,10 @@ import {
   HelperText,
 } from 'react-native-paper';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getStyles } from './styles';
 import { RootState } from '../../../shared/store/redux/rootReducer';
 import { authenticateUserSchema } from '../../hooks/formik/schemas/authenticate-user.schema';
+import { MaterialCommunityIcon } from '../../../shared/components/MaterialCommunityIcon';
 
 type InitialValues = Yup.InferType<typeof authenticateUserSchema>;
 
@@ -45,7 +45,7 @@ export function AuthenticateUserForm({
         <Text style={styles.selectText}>
           {formik.values.userType ? validUserTypes.find((t) => t.value === formik.values.userType)?.label : 'Selecciona tipo de usuario'}
         </Text>
-        <Icon name="chevron-down" size={24} color={appTheme.colors.text} style={styles.selectIcon} />
+        <MaterialCommunityIcon name="chevron-down" size={24} color={appTheme.colors.text} style={styles.selectIcon} />
       </TouchableOpacity>
       {formik.touched.userType && formik.errors.userType && (
       <HelperText type="error" style={styles.errorText}>{formik.errors.userType}</HelperText>

@@ -55,10 +55,6 @@ export function useAuthenticateUserScreenLogic() {
 
         const { authenticatedUser } = data.right();
         authenticationActions.setAuthenticatedUser(authenticatedUser.toPrimitives);
-
-        if (authenticatedUser.type.value !== undefined) {
-          navigation.navigate('publicScreen');
-        }
       }
     }
   }, [data, navigation, dispatch]);

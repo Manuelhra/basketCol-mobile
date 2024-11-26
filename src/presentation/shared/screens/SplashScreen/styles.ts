@@ -1,21 +1,36 @@
 import { StyleSheet } from 'react-native';
 
-export const getStyles = () => StyleSheet.create({
-  container: {
+import { ITheme } from '../../config/theme/ITheme';
+
+export const getStyles = (appTheme: ITheme) => StyleSheet.create({
+  background: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'gray',
+    alignItems: 'center',
+  },
+  overlay: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Filtro oscuro para que el texto resalte
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
   },
   title: {
-    fontSize: 40,
+    fontSize: 48,
     fontWeight: 'bold',
+    color: appTheme.colors.accent,
     marginBottom: 20,
+    textTransform: 'uppercase',
+    letterSpacing: 2,
   },
   subtitle: {
     fontSize: 24,
+    color: '#FFFFFF',
     marginBottom: 40,
+    textAlign: 'center',
+    fontStyle: 'italic',
+    fontWeight: '500',
   },
   progressBarContainer: {
     width: '80%',
@@ -28,9 +43,11 @@ export const getStyles = () => StyleSheet.create({
   },
   progressBar: {
     height: '100%',
-    backgroundColor: 'white',
+    backgroundColor: appTheme.colors.secondary,
   },
   loadingText: {
-    fontSize: 16,
+    fontSize: 18,
+    color: '#FFFFFF',
+    marginTop: 20,
   },
 });
