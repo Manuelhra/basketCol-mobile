@@ -1,13 +1,13 @@
-import { PlayerUserDefensiveAttributesDTO } from '../../../defensive/application/dtos/PlayerUserDefensiveAttributesDTO';
-import { PlayerUserFinishingAttributesDTO } from '../../../finishing/application/dtos/PlayerUserFinishingAttributesDTO';
-import { PlayerUserPhysicalAttributesDTO } from '../../../physical/application/dtos/PlayerUserPhysicalAttributesDTO';
-import { PlayerUserReboundingAttributesDTO } from '../../../rebounding/application/dtos/PlayerUserReboundingAttributesDTO';
-import { PlayerUserShootingAttributesDTO } from '../../../shooting/application/dtos/PlayerUserShootingAttributesDTO';
-import { PlayerUserSkillAttributesDTO } from '../../../skill/application/dtos/PlayerUserSkillAttributesDTO';
+import { PlayerUserDefensiveAttributesHttpResponseDTO } from '../../../defensive/application/dtos/PlayerUserDefensiveAttributesHttpResponseDTO';
+import { PlayerUserFinishingAttributesHttpResponseDTO } from '../../../finishing/application/dtos/PlayerUserFinishingAttributesHttpResponseDTO';
+import { PlayerUserPhysicalAttributesHttpResponseDTO } from '../../../physical/application/dtos/PlayerUserPhysicalAttributesHttpResponseDTO';
+import { PlayerUserReboundingAttributesHttpResponseDTO } from '../../../rebounding/application/dtos/PlayerUserReboundingAttributesHttpResponseDTO';
+import { PlayerUserShootingAttributesHttpResponseDTO } from '../../../shooting/application/dtos/PlayerUserShootingAttributesHttpResponseDTO';
+import { PlayerUserSkillAttributesHttpResponseDTO } from '../../../skill/application/dtos/PlayerUserSkillAttributesHttpResponseDTO';
 
-export type AttributesDTO = PlayerUserDefensiveAttributesDTO
-| PlayerUserFinishingAttributesDTO
-| PlayerUserReboundingAttributesDTO
-| PlayerUserSkillAttributesDTO
-| PlayerUserPhysicalAttributesDTO
-| PlayerUserShootingAttributesDTO;
+export type AttributesDTO = PlayerUserDefensiveAttributesHttpResponseDTO
+| PlayerUserFinishingAttributesHttpResponseDTO
+| PlayerUserReboundingAttributesHttpResponseDTO
+| PlayerUserSkillAttributesHttpResponseDTO
+| PlayerUserPhysicalAttributesHttpResponseDTO
+| PlayerUserShootingAttributesHttpResponseDTO;

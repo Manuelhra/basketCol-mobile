@@ -8,3 +8,4 @@ if (awilixTeamPlayerContainer === null) {
 }
 
 export const findTeamActivePlayerUseCase = awilixTeamPlayerContainer.resolve('findTeamActivePlayerUseCase');
+export const findAllTeamActivePlayersUseCase = awilixTeamPlayerContainer.resolve('findAllTeamActivePlayersUseCase');

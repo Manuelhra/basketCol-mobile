@@ -16,7 +16,7 @@ import { IGetAuthenticatedUserByAuthTokenUseCase } from './ports/IGetAuthenticat
 import { IAuthenticationTokenStorage } from '../storage/ports/IAuthenticationTokenStorage';
 import { AnySystemUserTypeDTO } from '../../../users/shared/application/dtos/AnySystemUserTypeDTO';
 import { PlayerUserDomainEntityMapper } from '../../../users/player/application/mappers/PlayerUserDomainEntityMapper';
-import { PlayerUserDTO } from '../../../users/player/application/dtos/PlayerUserDTO';
+import { PlayerUserHttpResponseDTO } from '../../../users/player/application/dtos/PlayerUserHttpResponseDTO';
 import { HostUserDomainEntityMapper } from '../../../users/host/application/mappers/HostUserDomainEntityMapper';
 import { LeagueFounderUserDomainEntityMapper } from '../../../users/league-founder/application/mappers/LeagueFounderUserDomainEntityMapper';
 import { RefereeUserDomainEntityMapper } from '../../../users/referee/application/mappers/RefereeUserDomainEntityMapper';
@@ -71,7 +71,7 @@ export class GetAuthenticatedUserByAuthTokenUseCase implements IGetAuthenticated
   #mapAuthenticatedUser(userDTO: AnySystemUserTypeDTO): AnySystemUserType {
     switch (userDTO.type) {
       case PlayerUserType.value:
-        return PlayerUserDomainEntityMapper.mapToDomainEntity(userDTO as PlayerUserDTO);
+        return PlayerUserDomainEntityMapper.mapToDomainEntity(userDTO as PlayerUserHttpResponseDTO);
 
       case HostUserType.value:
         return HostUserDomainEntityMapper.mapToDomainEntity(userDTO);

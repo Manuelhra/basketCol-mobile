@@ -1,9 +1,9 @@
 import { PlayerUserSkillAttributes } from '@basketcol/domain';
 
-import { PlayerUserSkillAttributesDTO } from '../dtos/PlayerUserSkillAttributesDTO';
+import { PlayerUserSkillAttributesHttpResponseDTO } from '../dtos/PlayerUserSkillAttributesHttpResponseDTO';
 
 export abstract class PlayerUserSkillAttributeDomainEntityMapper {
-  public static mapToDomainEntity(dto: PlayerUserSkillAttributesDTO): PlayerUserSkillAttributes {
+  public static mapToDomainEntity(dto: PlayerUserSkillAttributesHttpResponseDTO): PlayerUserSkillAttributes {
     return PlayerUserSkillAttributes.create(
       dto.id,
       dto.passAccuracy,
@@ -15,7 +15,7 @@ export abstract class PlayerUserSkillAttributeDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: PlayerUserSkillAttributes): PlayerUserSkillAttributesDTO {
+  public static mapToDTO(domainEntity: PlayerUserSkillAttributes): PlayerUserSkillAttributesHttpResponseDTO {
     const {
       id,
       ballHandle,

@@ -1,9 +1,9 @@
 import { PlayerUserDefensiveAttributes } from '@basketcol/domain';
 
-import { PlayerUserDefensiveAttributesDTO } from '../dtos/PlayerUserDefensiveAttributesDTO';
+import { PlayerUserDefensiveAttributesHttpResponseDTO } from '../dtos/PlayerUserDefensiveAttributesHttpResponseDTO';
 
 export abstract class PlayerUserDefensiveAttributeDomainEntityMapper {
-  public static mapToDomainEntity(dto: PlayerUserDefensiveAttributesDTO): PlayerUserDefensiveAttributes {
+  public static mapToDomainEntity(dto: PlayerUserDefensiveAttributesHttpResponseDTO): PlayerUserDefensiveAttributes {
     return PlayerUserDefensiveAttributes.create(
       dto.id,
       dto.interiorDefense,
@@ -16,7 +16,7 @@ export abstract class PlayerUserDefensiveAttributeDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: PlayerUserDefensiveAttributes): PlayerUserDefensiveAttributesDTO {
+  public static mapToDTO(domainEntity: PlayerUserDefensiveAttributes): PlayerUserDefensiveAttributesHttpResponseDTO {
     const {
       id,
       interiorDefense,

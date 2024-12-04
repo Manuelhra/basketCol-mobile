@@ -1,9 +1,9 @@
 import { LeagueFounderUser } from '@basketcol/domain';
 
-import { LeagueFounderUserDTO } from '../dtos/LeagueFounderUserDTO';
+import { LeagueFounderUserHttpResponseDTO } from '../dtos/LeagueFounderUserHttpResponseDTO';
 
 export abstract class LeagueFounderUserDomainEntityMapper {
-  public static mapToDomainEntity(dto: LeagueFounderUserDTO): LeagueFounderUser {
+  public static mapToDomainEntity(dto: LeagueFounderUserHttpResponseDTO): LeagueFounderUser {
     return LeagueFounderUser.createWithoutPassword(
       dto.id,
       dto.name,
@@ -18,7 +18,7 @@ export abstract class LeagueFounderUserDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: LeagueFounderUser): LeagueFounderUserDTO {
+  public static mapToDTO(domainEntity: LeagueFounderUser): LeagueFounderUserHttpResponseDTO {
     return {
       id: domainEntity.id.value,
       name: domainEntity.name.value,

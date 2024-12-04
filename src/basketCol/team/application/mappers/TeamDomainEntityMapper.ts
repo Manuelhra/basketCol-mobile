@@ -1,9 +1,9 @@
 import { Team } from '@basketcol/domain';
 
-import { TeamDTO } from '../dtos/TeamDTO';
+import { TeamHttpResponseDTO } from '../dtos/TeamHttpResponseDTO';
 
 export abstract class TeamDomainEntityMapper {
-  public static mapToDomainEntity(dto: TeamDTO): Team {
+  public static mapToDomainEntity(dto: TeamHttpResponseDTO): Team {
     return Team.create(
       dto.id,
       dto.officialName,
@@ -17,7 +17,7 @@ export abstract class TeamDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: Team): TeamDTO {
+  public static mapToDTO(domainEntity: Team): TeamHttpResponseDTO {
     const {
       id,
       officialName,

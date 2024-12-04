@@ -1,9 +1,9 @@
 import { HostUser } from '@basketcol/domain';
 
-import { HostUserDTO } from '../dtos/HostUserDTO';
+import { HostUserHttpResponseDTO } from '../dtos/HostUserHttpResponseDTO';
 
 export abstract class HostUserDomainEntityMapper {
-  public static mapToDomainEntity(dto: HostUserDTO): HostUser {
+  public static mapToDomainEntity(dto: HostUserHttpResponseDTO): HostUser {
     return HostUser.createWithoutPassword(
       dto.id,
       dto.name,
@@ -18,7 +18,7 @@ export abstract class HostUserDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: HostUser): HostUserDTO {
+  public static mapToDTO(domainEntity: HostUser): HostUserHttpResponseDTO {
     return {
       id: domainEntity.id.value,
       name: domainEntity.name.value,

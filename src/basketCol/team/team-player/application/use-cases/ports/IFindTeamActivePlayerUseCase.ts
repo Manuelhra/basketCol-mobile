@@ -7,10 +7,6 @@ export type IFindTeamActivePlayerUseCaseResponse = {
   teamPlayer: TeamPlayer;
   teamInfo: Team;
   playerUserInfo: PlayerUser;
-} | {
-  teamPlayer: null;
-  teamInfo: null;
-  playerUserInfo: null;
-};
+} | null;
 
 export interface IFindTeamActivePlayerUseCase extends IUseCase<FindTeamActivePlayerDTO, IFindTeamActivePlayerUseCaseResponse> {}
