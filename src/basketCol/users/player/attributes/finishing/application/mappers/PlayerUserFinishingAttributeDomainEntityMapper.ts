@@ -1,9 +1,9 @@
 import { PlayerUserFinishingAttributes } from '@basketcol/domain';
 
-import { PlayerUserFinishingAttributesDTO } from '../dtos/PlayerUserFinishingAttributesDTO';
+import { PlayerUserFinishingAttributesHttpResponseDTO } from '../dtos/PlayerUserFinishingAttributesHttpResponseDTO';
 
 export abstract class PlayerUserFinishingAttributeDomainEntityMapper {
-  public static mapToDomainEntity(dto: PlayerUserFinishingAttributesDTO): PlayerUserFinishingAttributes {
+  public static mapToDomainEntity(dto: PlayerUserFinishingAttributesHttpResponseDTO): PlayerUserFinishingAttributes {
     return PlayerUserFinishingAttributes.create(
       dto.id,
       dto.drivingLayup,
@@ -16,7 +16,7 @@ export abstract class PlayerUserFinishingAttributeDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: PlayerUserFinishingAttributes): PlayerUserFinishingAttributesDTO {
+  public static mapToDTO(domainEntity: PlayerUserFinishingAttributes): PlayerUserFinishingAttributesHttpResponseDTO {
     const {
       id,
       drivingDunk,

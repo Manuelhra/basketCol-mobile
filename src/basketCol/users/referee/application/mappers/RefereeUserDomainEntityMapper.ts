@@ -1,9 +1,9 @@
 import { RefereeUser } from '@basketcol/domain';
 
-import { RefereeUserDTO } from '../dtos/RefereeUserDTO';
+import { RefereeUserHttpResponseDTO } from '../dtos/RefereeUserHttpResponseDTO';
 
 export abstract class RefereeUserDomainEntityMapper {
-  public static mapToDomainEntity(dto: RefereeUserDTO): RefereeUser {
+  public static mapToDomainEntity(dto: RefereeUserHttpResponseDTO): RefereeUser {
     return RefereeUser.createWithoutPassword(
       dto.id,
       dto.name,
@@ -18,7 +18,7 @@ export abstract class RefereeUserDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: RefereeUser): RefereeUserDTO {
+  public static mapToDTO(domainEntity: RefereeUser): RefereeUserHttpResponseDTO {
     return {
       id: domainEntity.id.value,
       name: domainEntity.name.value,

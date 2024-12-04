@@ -1,9 +1,9 @@
 import { PlayerUserShootingAttributes } from '@basketcol/domain';
 
-import { PlayerUserShootingAttributesDTO } from '../dtos/PlayerUserShootingAttributesDTO';
+import { PlayerUserShootingAttributesHttpResponseDTO } from '../dtos/PlayerUserShootingAttributesHttpResponseDTO';
 
 export abstract class PlayerUserShootingAttributeDomainEntityMapper {
-  public static mapToDomainEntity(dto: PlayerUserShootingAttributesDTO): PlayerUserShootingAttributes {
+  public static mapToDomainEntity(dto: PlayerUserShootingAttributesHttpResponseDTO): PlayerUserShootingAttributes {
     return PlayerUserShootingAttributes.create(
       dto.id,
       dto.closeShot,
@@ -16,7 +16,7 @@ export abstract class PlayerUserShootingAttributeDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: PlayerUserShootingAttributes): PlayerUserShootingAttributesDTO {
+  public static mapToDTO(domainEntity: PlayerUserShootingAttributes): PlayerUserShootingAttributesHttpResponseDTO {
     const {
       id,
       closeShot,

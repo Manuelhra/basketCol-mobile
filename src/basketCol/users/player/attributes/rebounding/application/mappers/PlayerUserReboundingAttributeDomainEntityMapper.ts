@@ -1,9 +1,9 @@
 import { PlayerUserReboundingAttributes } from '@basketcol/domain';
 
-import { PlayerUserReboundingAttributesDTO } from '../dtos/PlayerUserReboundingAttributesDTO';
+import { PlayerUserReboundingAttributesHttpResponseDTO } from '../dtos/PlayerUserReboundingAttributesHttpResponseDTO';
 
 export abstract class PlayerUserReboundingAttributeDomainEntityMapper {
-  public static mapToDomainEntity(dto: PlayerUserReboundingAttributesDTO): PlayerUserReboundingAttributes {
+  public static mapToDomainEntity(dto: PlayerUserReboundingAttributesHttpResponseDTO): PlayerUserReboundingAttributes {
     return PlayerUserReboundingAttributes.create(
       dto.id,
       dto.offensiveRebound,
@@ -14,7 +14,7 @@ export abstract class PlayerUserReboundingAttributeDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: PlayerUserReboundingAttributes): PlayerUserReboundingAttributesDTO {
+  public static mapToDTO(domainEntity: PlayerUserReboundingAttributes): PlayerUserReboundingAttributesHttpResponseDTO {
     const {
       id,
       defensiveRebound,

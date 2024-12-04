@@ -6,11 +6,9 @@ import { FindTeamActivePlayerDTO } from '../dtos/FindTeamActivePlayerDTO';
 import { IFindTeamActivePlayerUseCase, IFindTeamActivePlayerUseCaseResponse } from './ports/IFindTeamActivePlayerUseCase';
 import { DomainErrorMapper } from '../../../../shared/application/mappers/DomainErrorMapper';
 import { TeamPlayerDomainEntityMapper } from '../mappers/TeamPlayerDomainEntityMapper';
-import { TeamPlayerDTO } from '../dtos/TeamPlayerDTO';
-import { TeamDTO } from '../../../application/dtos/TeamDTO';
 import { TeamDomainEntityMapper } from '../../../application/mappers/TeamDomainEntityMapper';
-import { PlayerUserDTO } from '../../../../users/player/application/dtos/PlayerUserDTO';
 import { PlayerUserDomainEntityMapper } from '../../../../users/player/application/mappers/PlayerUserDomainEntityMapper';
+import { TeamPlayerHttpResponseDTO } from '../dtos/TeamPlayerHttpResponseDTO';
 
 type Dependencies = {
   readonly basketColHttpClient: IHttpClient;
@@ -33,7 +31,7 @@ export class FindTeamActivePlayerUseCase implements IFindTeamActivePlayerUseCase
     }
 
     const authenticationToken = getAuthenticationTokenResult.right();
-    const httpResult = await this.dependencies.basketColHttpClient.get<ITeamPlayerHttpResponse>(
+    const httpResult = await this.dependencies.basketColHttpClient.get<TeamPlayerHttpResponseDTO>(
       `/teams/players/${dto.playerUserId}/active`,
       { headers: { Authorization: `Bearer ${authenticationToken}` } },
     );
@@ -48,34 +46,16 @@ export class FindTeamActivePlayerUseCase implements IFindTeamActivePlayerUseCase
   }
 
   #handleSuccessResponse(
-    data: ITeamPlayerHttpResponse,
+    data: TeamPlayerHttpResponseDTO,
   ): Result<IFindTeamActivePlayerUseCaseResponse> {
-    const { teamPlayer, teamInfo, playerUserInfo } = data;
-
-    if (teamPlayer === null || teamInfo === null || playerUserInfo === null) {
-      return Either.right({
-        teamPlayer: null,
-        teamInfo: null,
-        playerUserInfo: null,
-      });
+    if (data === null) {
+      return Either.right(null);
     }
 
     return Either.right({
-      teamPlayer: TeamPlayerDomainEntityMapper.mapToDomainEntity(teamPlayer),
-      teamInfo: TeamDomainEntityMapper.mapToDomainEntity(teamInfo),
-      playerUserInfo: PlayerUserDomainEntityMapper.mapToDomainEntity(playerUserInfo),
+      teamPlayer: TeamPlayerDomainEntityMapper.mapToDomainEntity(data),
+      teamInfo: TeamDomainEntityMapper.mapToDomainEntity(data.team),
+      playerUserInfo: PlayerUserDomainEntityMapper.mapToDomainEntity(data.playerUser),
     });
   }
 }
-
-// # types
-
-type ITeamPlayerHttpResponse = {
-  teamPlayer: TeamPlayerDTO;
-  teamInfo: TeamDTO;
-  playerUserInfo: PlayerUserDTO;
-} | {
-  teamPlayer: null;
-  teamInfo: null;
-  playerUserInfo: null;
-};

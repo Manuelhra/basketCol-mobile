@@ -6,12 +6,12 @@ import { ITheme } from '../../../../config/theme/ITheme';
 export type ThemeMode = 'light' | 'dark';
 
 export interface IThemeInitialState {
-  mode: ThemeMode;
+  themeMode: ThemeMode;
   theme: ITheme;
 }
 
 const initialState: IThemeInitialState = {
-  mode: 'light',
+  themeMode: 'light',
   theme: lightTheme,
 };
 
@@ -20,7 +20,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setMode: (state, action: PayloadAction<ThemeMode>) => {
-      state.mode = action.payload;
+      state.themeMode = action.payload;
     },
     setTheme: (state, action: PayloadAction<ITheme>) => {
       state.theme = action.payload;

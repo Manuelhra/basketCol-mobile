@@ -1,13 +1,13 @@
-import { TeamPlayer } from '@basketcol/domain';
+import { PlayerUser, Team, TeamPlayer } from '@basketcol/domain';
 
-import { TeamPlayerDTO } from '../dtos/TeamPlayerDTO';
+import { TeamPlayerHttpResponseDTO } from '../dtos/TeamPlayerHttpResponseDTO';
 
 export abstract class TeamPlayerDomainEntityMapper {
-  public static mapToDomainEntity(dto: TeamPlayerDTO): TeamPlayer {
+  public static mapToDomainEntity(dto: TeamPlayerHttpResponseDTO): TeamPlayer {
     return TeamPlayer.create(
       dto.id,
-      dto.teamId,
-      dto.playerUserId,
+      dto.team.id,
+      dto.playerUser.id,
       dto.status,
       dto.jerseyNumber,
       dto.position,
@@ -18,11 +18,9 @@ export abstract class TeamPlayerDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: TeamPlayer): TeamPlayerDTO {
+  public static mapToDTO(domainEntity: TeamPlayer, team: Team, playerUser: PlayerUser): TeamPlayerHttpResponseDTO {
     const {
       id,
-      teamId,
-      playerUserId,
       status,
       jerseyNumber,
       position,
@@ -34,8 +32,8 @@ export abstract class TeamPlayerDomainEntityMapper {
 
     return {
       id,
-      teamId,
-      playerUserId,
+      team: team.toPrimitives,
+      playerUser: playerUser.toPrimitives,
       status,
       jerseyNumber,
       position,

@@ -14,7 +14,7 @@ import {
 import { getStyles } from './styles';
 import { RootState } from '../../../shared/store/redux/rootReducer';
 import { authenticateUserSchema } from '../../hooks/formik/schemas/authenticate-user.schema';
-import { MaterialCommunityIcon } from '../../../shared/components/MaterialCommunityIcon';
+import { MaterialCommunityIconComponent } from '../../../shared/components/MaterialCommunityIconComponent';
 
 type InitialValues = Yup.InferType<typeof authenticateUserSchema>;
 
@@ -45,7 +45,7 @@ export function AuthenticateUserForm({
         <Text style={styles.selectText}>
           {formik.values.userType ? validUserTypes.find((t) => t.value === formik.values.userType)?.label : 'Selecciona tipo de usuario'}
         </Text>
-        <MaterialCommunityIcon name="chevron-down" size={24} color={appTheme.colors.text} style={styles.selectIcon} />
+        <MaterialCommunityIconComponent name="chevron-down" size={24} color={appTheme.colors.text} style={styles.selectIcon} />
       </TouchableOpacity>
       {formik.touched.userType && formik.errors.userType && (
       <HelperText type="error" style={styles.errorText}>{formik.errors.userType}</HelperText>

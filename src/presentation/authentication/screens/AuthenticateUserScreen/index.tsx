@@ -15,7 +15,7 @@ import { RootState } from '../../../shared/store/redux/rootReducer';
 import { getStyles } from './styles';
 import { useAuthenticateUserScreenLogic } from '../../hooks/useAuthenticateUserScreenLogic';
 import { AuthenticateUserForm } from './AuthenticateUserForm';
-import { MaterialCommunityIcon } from '../../../shared/components/MaterialCommunityIcon';
+import { MaterialCommunityIconComponent } from '../../../shared/components/MaterialCommunityIconComponent';
 
 export function AuthenticateUserScreen(): React.JSX.Element {
   const appTheme = useSelector((state: RootState) => state.theme.theme);
@@ -51,7 +51,7 @@ export function AuthenticateUserScreen(): React.JSX.Element {
               <View style={styles.glassPaneBorder} />
             </View>
             <ScrollView contentContainerStyle={styles.content}>
-              <MaterialCommunityIcon name="basketball" size={80} color={appTheme.colors.primary} />
+              <MaterialCommunityIconComponent name="basketball" size={80} color={appTheme.colors.primary} />
               <Text style={styles.logo}>Basketcol</Text>
 
               {authenticateUserErrorList.length > 0 && (

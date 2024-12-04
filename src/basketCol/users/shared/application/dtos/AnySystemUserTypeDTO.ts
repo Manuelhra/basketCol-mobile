@@ -1,7 +1,7 @@
-import { HostUserDTO } from '../../../host/application/dtos/HostUserDTO';
-import { LeagueFounderUserDTO } from '../../../league-founder/application/dtos/LeagueFounderUserDTO';
-import { PlayerUserDTO } from '../../../player/application/dtos/PlayerUserDTO';
-import { RefereeUserDTO } from '../../../referee/application/dtos/RefereeUserDTO';
-import { TeamFounderUserDTO } from '../../../team-founder/application/dtos/TeamFounderUserDTO';
+import { HostUserHttpResponseDTO } from '../../../host/application/dtos/HostUserHttpResponseDTO';
+import { LeagueFounderUserHttpResponseDTO } from '../../../league-founder/application/dtos/LeagueFounderUserHttpResponseDTO';
+import { PlayerUserHttpResponseDTO } from '../../../player/application/dtos/PlayerUserHttpResponseDTO';
+import { RefereeUserHttpResponseDTO } from '../../../referee/application/dtos/RefereeUserHttpResponseDTO';
+import { TeamFounderUserHttpResponseDTO } from '../../../team-founder/application/dtos/TeamFounderUserHttpResponseDTO';
 
-export type AnySystemUserTypeDTO = HostUserDTO | PlayerUserDTO | RefereeUserDTO | LeagueFounderUserDTO | TeamFounderUserDTO;
+export type AnySystemUserTypeDTO = HostUserHttpResponseDTO | PlayerUserHttpResponseDTO | RefereeUserHttpResponseDTO | LeagueFounderUserHttpResponseDTO | TeamFounderUserHttpResponseDTO;

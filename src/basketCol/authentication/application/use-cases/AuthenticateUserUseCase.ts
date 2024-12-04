@@ -19,7 +19,7 @@ import { LeagueFounderUserDomainEntityMapper } from '../../../users/league-found
 import { PlayerUserDomainEntityMapper } from '../../../users/player/application/mappers/PlayerUserDomainEntityMapper';
 import { RefereeUserDomainEntityMapper } from '../../../users/referee/application/mappers/RefereeUserDomainEntityMapper';
 import { TeamFounderUserDomainEntityMapper } from '../../../users/team-founder/application/mappers/TeamFounderUserDomainEntityMapper';
-import { PlayerUserDTO } from '../../../users/player/application/dtos/PlayerUserDTO';
+import { PlayerUserHttpResponseDTO } from '../../../users/player/application/dtos/PlayerUserHttpResponseDTO';
 import { IAuthenticationTokenStorage } from '../storage/ports/IAuthenticationTokenStorage';
 import { DomainErrorMapper } from '../../../shared/application/mappers/DomainErrorMapper';
 
@@ -77,7 +77,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
   #mapAuthenticatedUser(userDTO: AnySystemUserTypeDTO): AnySystemUserType {
     switch (userDTO.type) {
       case PlayerUserType.value:
-        return PlayerUserDomainEntityMapper.mapToDomainEntity(userDTO as PlayerUserDTO);
+        return PlayerUserDomainEntityMapper.mapToDomainEntity(userDTO as PlayerUserHttpResponseDTO);
 
       case HostUserType.value:
         return HostUserDomainEntityMapper.mapToDomainEntity(userDTO);

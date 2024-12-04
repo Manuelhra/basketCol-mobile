@@ -1,9 +1,9 @@
 import { PlayerUserPhysicalAttributes } from '@basketcol/domain';
 
-import { PlayerUserPhysicalAttributesDTO } from '../dtos/PlayerUserPhysicalAttributesDTO';
+import { PlayerUserPhysicalAttributesHttpResponseDTO } from '../dtos/PlayerUserPhysicalAttributesHttpResponseDTO';
 
 export abstract class PlayerUserPhysicalAttributeDomainEntityMapper {
-  public static mapToDomainEntity(dto: PlayerUserPhysicalAttributesDTO): PlayerUserPhysicalAttributes {
+  public static mapToDomainEntity(dto: PlayerUserPhysicalAttributesHttpResponseDTO): PlayerUserPhysicalAttributes {
     return PlayerUserPhysicalAttributes.create(
       dto.id,
       dto.speed,
@@ -17,7 +17,7 @@ export abstract class PlayerUserPhysicalAttributeDomainEntityMapper {
     );
   }
 
-  public static mapToDTO(domainEntity: PlayerUserPhysicalAttributes): PlayerUserPhysicalAttributesDTO {
+  public static mapToDTO(domainEntity: PlayerUserPhysicalAttributes): PlayerUserPhysicalAttributesHttpResponseDTO {
     const {
       id,
       acceleration,
