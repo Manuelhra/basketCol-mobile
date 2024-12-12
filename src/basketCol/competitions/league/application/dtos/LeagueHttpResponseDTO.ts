@@ -1,9 +1,6 @@
-import { AggregateRootHttpResponseDTO } from '../../../../shared/application/dtos/AggregateRootHttpResponseDTO';
+import { ILocationValueObjectProps } from '@basketcol/domain';
 
-interface IItem {
-  code: string;
-  label: string;
-}
+import { AggregateRootHttpResponseDTO } from '../../../../shared/application/dtos/AggregateRootHttpResponseDTO';
 
 export interface LeagueHttpResponseDTO extends AggregateRootHttpResponseDTO {
   name: {
@@ -14,17 +11,10 @@ export interface LeagueHttpResponseDTO extends AggregateRootHttpResponseDTO {
     short: string;
     complete: string;
   };
+  gender: string;
   rules: string;
   level: string;
-  location: {
-    country: IItem;
-    department: IItem;
-    city: IItem;
-    coords: {
-      lat: number;
-      lng: number;
-    };
-  };
+  location: ILocationValueObjectProps;
   establishmentDate: string;
   leagueFounderUserId: string;
   isActive: boolean;

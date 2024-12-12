@@ -1,5 +1,5 @@
 import React from 'react';
-import { IImageValueObjectProps } from '@basketcol/domain/build/types/basketCol/shared/domain/value-objects/ImageValueObject';
+import { IImageValueObjectProps } from '@basketcol/domain';
 import {
   Text,
   View,

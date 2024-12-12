@@ -33,8 +33,7 @@ export function TeamOverviewScreen() {
   } = useTeamOverviewScreenLogic();
 
   // Comprehensive loading and error handling
-  if (isLoading || !team || !teamAllTimeStats || !teamPlayerUserList
-  ) {
+  if (isLoading || !team || !teamAllTimeStats || !teamPlayerUserList) {
     return <TeamOverviewScreenSkeleton />;
   }
 

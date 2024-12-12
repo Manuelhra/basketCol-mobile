@@ -10,7 +10,12 @@ export const getStyles = (theme: ITheme) => StyleSheet.create({
     alignItems: 'center',
   },
   scrollContainer: {
-    padding: theme.spacing.medium,
+    width: '100%', // Asegura que ocupe todo el ancho
+    maxWidth: 600, // Limita el ancho máximo
+    paddingHorizontal: theme.spacing.medium,
     paddingBottom: theme.spacing.large,
+  },
+  scrollViewContent: {
+    alignItems: 'center', // Centra los elementos dentro del ScrollView
   },
 });

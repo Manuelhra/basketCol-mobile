@@ -30,15 +30,20 @@ export const useTeamOverviewScreenLogic = () => {
   const { authenticatedUser } = useSelector((state: RootState) => state.authentication);
   const navigation = useNavigation<NavigationProp<PlayerUserMyTeamStackNavigatorParamList, 'teamOverview'>>();
   // Only fetch active team if it's my team view
-  const {
-    teamActivePlayer,
-    isLoading: isLoadingFindTeamActivePlayer,
-    requestError: requestErrorFindTeamActivePlayer,
-  } = useFindTeamActivePlayer(
-    findTeamActivePlayerUseCase,
-    params.isMyTeamView ? (authenticatedUser?.id ?? '') : '',
-  );
+  let teamActivePlayer;
+  let isLoadingFindTeamActivePlayer;
+  let requestErrorFindTeamActivePlayer;
 
+  if (params.isMyTeamView) {
+    ({ teamActivePlayer, isLoading: isLoadingFindTeamActivePlayer, requestError: requestErrorFindTeamActivePlayer } = useFindTeamActivePlayer(
+      findTeamActivePlayerUseCase,
+      authenticatedUser?.id ?? '',
+    ));
+  } else {
+    teamActivePlayer = null;
+    isLoadingFindTeamActivePlayer = false;
+    requestErrorFindTeamActivePlayer = null;
+  }
   // Determine teamId with fallback and memoization
   const teamId = useMemo(() => {
     if (params.isMyTeamView) {

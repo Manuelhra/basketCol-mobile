@@ -1,24 +1,43 @@
 import React from 'react';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { ScrollView, View } from 'react-native';
-import { useSelector } from 'react-redux';
 
 import { LeagueCardComponent } from '../../components/LeagueCardComponent';
-import { dummyLeaguesData } from './dummy-data';
-import { RootState } from '../../../../shared/store/redux/rootReducer';
 import { getStyles } from './styles';
 import { BasketColLayout } from '../../../../shared/layout/BasketColLayout';
-import { type PlayerUserCompetitionsStackNavigatorParamList } from '../../../../users/player/navigation/PlayerUserBottomNavigator';
+import { LeaguesDiscoveryScreenSkeleton } from './LeaguesDiscoveryScreenSkeleton';
+import { ErrorModalComponent } from '../../../../shared/components/ErrorModalComponent';
+import { useLeaguesDiscoveryScreenLogic } from '../../hooks/useLeaguesDiscoveryScreenLogic';
 
 export function LeaguesDiscoveryScreen(): React.JSX.Element {
-  const { theme, themeMode } = useSelector((state: RootState) => state.theme);
-  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leaguesDiscovery'>>();
-
+  const {
+    isLoading,
+    data,
+    requestError,
+    theme,
+    themeMode,
+    handleLeaguePress,
+    handleReload,
+  } = useLeaguesDiscoveryScreenLogic();
   const styles = getStyles(theme);
 
-  const handleLeaguePress = () => {
-    navigation.navigate('leagueOverview'); // Asegúrate de que 'LeagueDetails' sea una ruta válida
-  };
+  if (isLoading || !data.leagues || !data.pagination) {
+    return <LeaguesDiscoveryScreenSkeleton />;
+  }
+
+  // Error handling
+  if (requestError) {
+    return (
+      <ScrollView style={styles.container}>
+        <ErrorModalComponent
+          isVisible
+          showCloseIcon={false}
+          secondaryActionLabel="Reintentar"
+          secondaryActionHandler={handleReload}
+        />
+        <LeaguesDiscoveryScreenSkeleton />
+      </ScrollView>
+    );
+  }
 
   return (
     <BasketColLayout
@@ -28,13 +47,13 @@ export function LeaguesDiscoveryScreen(): React.JSX.Element {
     >
       <View style={styles.scrollContainer}>
         <ScrollView style={styles.scrollContainer}>
-          {dummyLeaguesData.map((league) => (
+          {data.leagues.map((league) => (
             <LeagueCardComponent
               key={league.id}
               league={league}
               appTheme={theme}
               themeMode={themeMode}
-              onPress={handleLeaguePress}
+              onPress={() => handleLeaguePress(league.id)}
             />
           ))}
         </ScrollView>
