@@ -1,5 +1,4 @@
 import React from 'react';
-import { ILocationValueObjectProps } from '@basketcol/domain/build/types/basketCol/shared/domain/value-objects/LocationValueObject';
 import {
   Text,
   View,
@@ -7,29 +6,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import { ILeaguePrimitives } from '@basketcol/domain';
+
 import { getStyles } from './styles';
 import { ITheme } from '../../../../shared/config/theme/ITheme';
 import { ThemeMode } from '../../../../shared/store/redux/slices/theme/theme.slice';
 
 type LeagueCardComponentProps = {
-  league: {
-    name: {
-      short: string;
-      official: string;
-    };
-    description: {
-      short: string;
-      complete: string;
-    };
-    gender: string;
-    rules: string;
-    level: string;
-    location: ILocationValueObjectProps;
-    establishmentDate: string;
-    leagueFounderUserId: string;
-    isActive: boolean;
-    // logo: IImageValueObjectProps;
-  };
+  league: ILeaguePrimitives
   appTheme: ITheme;
   themeMode: ThemeMode;
   isSmall?: boolean;
@@ -84,7 +68,7 @@ export function LeagueCardComponent({
             <View style={styles.infoItem}>
               <Text style={styles.infoLabel}>FUNDACIÓN</Text>
               <Text style={styles.infoValue}>
-                {new Date(league.establishmentDate).getFullYear()}
+                {league.establishmentDate}
               </Text>
             </View>
           </View>

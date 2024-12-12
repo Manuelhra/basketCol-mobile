@@ -26,7 +26,7 @@ export type PlayerUserBottomNavigatorParamList = {
 
 export type PlayerUserCompetitionsStackNavigatorParamList = {
   leaguesDiscovery: undefined;
-  leagueOverview: undefined;
+  leagueOverview: { leagueId: string };
   teamOverview: { isMyTeamView: true } | { isMyTeamView: false; teamId: string };
   leagueSeasonOverview: undefined;
   leagueSeasonFixtureOverview: undefined;

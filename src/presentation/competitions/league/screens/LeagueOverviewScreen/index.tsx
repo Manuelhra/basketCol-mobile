@@ -5,69 +5,36 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Animated,
   FlatList,
-  Dimensions,
+  Animated,
 } from 'react-native';
-import { useSelector } from 'react-redux';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import { getStyles } from './styles';
-import { RootState } from '../../../../shared/store/redux/rootReducer';
 import { MaterialCommunityIconComponent } from '../../../../shared/components/MaterialCommunityIconComponent';
-import { dummyLeagueData } from './dummy-data';
 import { BasketColLayout } from '../../../../shared/layout/BasketColLayout';
 import { TeamCardComponent } from '../../../../team/components/TeamCardComponent';
-import { type PlayerUserCompetitionsStackNavigatorParamList } from '../../../../users/player/navigation/PlayerUserBottomNavigator';
-
-interface Season {
-  id: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  status: string;
-  courtIdList: string[];
-}
+import { useLeagueOverviewScreenLogic } from '../../hooks/useLeagueOverviewScreenLogic';
+import { TeamHttpResponseDTO } from '../../../../../basketCol/team/application/dtos/TeamHttpResponseDTO';
+import { LeagueSeasonHttpResponseDTO } from '../../../../../basketCol/competitions/league/season/application/dtos/LeagueSeasonHttpResponseDTO';
+import { LeagueOverviewScreenSkeleton } from './LeagueOverviewScreenSkeleton';
 
 export function LeagueOverviewScreen(): React.JSX.Element {
-  const { theme } = useSelector((state: RootState) => state.theme);
-  const { width } = Dimensions.get('window');
-  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueOverview'>>();
+  const {
+    theme,
+    width,
+    navigation,
+    isLoading,
+    data: {
+      league,
+      leagueFounder,
+      leagueSeasons,
+      leagueTeams,
+      teamList,
+    },
+  } = useLeagueOverviewScreenLogic();
   const styles = getStyles(theme, width);
 
-  // Animation values
-  const headerOpacity = new Animated.Value(0);
-  const founderOpacity = new Animated.Value(0);
-  const seasonsOpacity = new Animated.Value(0);
-  const teamsOpacity = new Animated.Value(0);
-
-  // Trigger animations
-  React.useEffect(() => {
-    Animated.sequence([
-      Animated.timing(headerOpacity, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }),
-      Animated.timing(founderOpacity, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }),
-      Animated.timing(seasonsOpacity, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }),
-      Animated.timing(teamsOpacity, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, []);
-
-  const renderSeasonCard = ({ item: season }: { item: Season }) => (
+  const renderSeasonCard = ({ item: season }: { item: LeagueSeasonHttpResponseDTO }) => (
     <TouchableOpacity
       key={season.id}
       onPress={() => navigation.navigate('leagueSeasonOverview')}
@@ -81,7 +48,7 @@ export function LeagueOverviewScreen(): React.JSX.Element {
           size={14}
         />
         <Text style={styles.seasonDetails}>
-          {` ${new Date(season.startDate).getFullYear()} - ${new Date(season.endDate).getFullYear()}`}
+          {` ${season.startDate} - ${season.endDate}`}
         </Text>
       </View>
       <Text style={styles.seasonDetails}>
@@ -92,7 +59,7 @@ export function LeagueOverviewScreen(): React.JSX.Element {
     </TouchableOpacity>
   );
 
-  const renderTeamCardComponent = ({ item: team }: { item: any }) => (
+  const renderTeamCardComponent = ({ item: team }: { item: TeamHttpResponseDTO }) => (
     <TeamCardComponent
       team={team}
       appTheme={theme}
@@ -101,6 +68,35 @@ export function LeagueOverviewScreen(): React.JSX.Element {
       onPress={() => navigation.navigate('teamOverview', { isMyTeamView: false, teamId: team.id })}
     />
   );
+
+  const fadeAnim = React.useRef(new Animated.Value(0.5)).current;
+
+  React.useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 0.2,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 0.5,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+  }, []);
+
+  if (isLoading || !league || !leagueFounder || !leagueSeasons || !leagueTeams) {
+    return (
+      <LeagueOverviewScreenSkeleton
+        theme={theme}
+        width={width}
+        fadeAnim={fadeAnim}
+      />
+    );
+  }
 
   return (
     <BasketColLayout
@@ -113,9 +109,7 @@ export function LeagueOverviewScreen(): React.JSX.Element {
         showsVerticalScrollIndicator={false}
       >
         {/* Header with Background Image */}
-        <Animated.View
-          style={[styles.headerContainer, { opacity: headerOpacity }]}
-        >
+        <View style={styles.headerContainer}>
           <Image
             source={require('./background-league-overview.jpg')}
             style={styles.headerBackground}
@@ -129,29 +123,27 @@ export function LeagueOverviewScreen(): React.JSX.Element {
               size={40}
             />
             <Text style={styles.leagueName}>
-              {dummyLeagueData.league.name.official}
+              {league.name.official}
             </Text>
           </View>
-        </Animated.View>
+        </View>
 
         {/* Separator between Header and Founder */}
         <View style={styles.sectionSeparator} />
 
         {/* Founder Section */}
-        <Animated.View
-          style={[styles.founderContainer, { opacity: founderOpacity }]}
-        >
+        <View style={styles.founderContainer}>
           <View style={styles.founderCard}>
             <Image
-              source={{ uri: dummyLeagueData.leagueFounder.profileImage.url }}
-              alt={dummyLeagueData.leagueFounder.profileImage.alt}
+              source={{ uri: leagueFounder.profileImage.url }}
+              alt={leagueFounder.profileImage.alt}
               style={styles.founderImage}
             />
             <View style={styles.founderInfo}>
               <Text style={styles.founderName}>
-                {dummyLeagueData.leagueFounder.name.firstName}
+                {leagueFounder.name.firstName}
                 {' '}
-                {dummyLeagueData.leagueFounder.name.lastName}
+                {leagueFounder.name.lastName}
               </Text>
               <View style={styles.founderLocation}>
                 <MaterialCommunityIconComponent
@@ -160,52 +152,42 @@ export function LeagueOverviewScreen(): React.JSX.Element {
                   size={16}
                 />
                 <Text style={styles.founderLocationText}>
-                  {` ${dummyLeagueData.league.location.city}, ${dummyLeagueData.league.location.country}`}
+                  {` ${league.location.city.label}, ${league.location.country.label}`}
                 </Text>
               </View>
             </View>
           </View>
-        </Animated.View>
+        </View>
 
         {/* Seasons Carousel */}
-        <Animated.View
-          style={[
-            styles.sectionTitle,
-            { opacity: seasonsOpacity },
-          ]}
-        >
+        <View style={styles.sectionTitle}>
           <Text style={styles.sectionTitle}>League Seasons</Text>
-        </Animated.View>
-        <Animated.View style={{ opacity: seasonsOpacity }}>
+        </View>
+        <View>
           <FlatList
-            data={dummyLeagueData.seasons}
+            data={leagueSeasons}
             renderItem={renderSeasonCard}
             keyExtractor={(item) => item.id}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.seasonScrollContainer}
           />
-        </Animated.View>
+        </View>
 
         {/* Teams Carousel */}
-        <Animated.View
-          style={[
-            styles.sectionTitle,
-            { opacity: teamsOpacity },
-          ]}
-        >
+        <View style={styles.sectionTitle}>
           <Text style={styles.sectionTitle}>League Teams</Text>
-        </Animated.View>
-        <Animated.View style={{ opacity: teamsOpacity }}>
+        </View>
+        <View>
           <FlatList
-            data={dummyLeagueData.teams}
+            data={teamList}
             renderItem={renderTeamCardComponent}
             keyExtractor={(item) => item.id}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.teamScrollContainer}
           />
-        </Animated.View>
+        </View>
 
       </ScrollView>
     </BasketColLayout>
