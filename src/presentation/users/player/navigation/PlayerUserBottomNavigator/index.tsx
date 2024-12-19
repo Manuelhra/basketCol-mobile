@@ -28,8 +28,8 @@ export type PlayerUserCompetitionsStackNavigatorParamList = {
   leaguesDiscovery: undefined;
   leagueOverview: { leagueId: string };
   teamOverview: { isMyTeamView: true } | { isMyTeamView: false; teamId: string };
-  leagueSeasonOverview: undefined;
-  leagueSeasonFixtureOverview: undefined;
+  leagueSeasonOverview: { leagueSeasonId: string };
+  leagueSeasonFixtureOverview: { leagueSeasonFixtureId: string };
   playerUserProfileOverview: { isMyProfileView: true } | { isMyProfileView: false; playerUserId: string };
 };
 

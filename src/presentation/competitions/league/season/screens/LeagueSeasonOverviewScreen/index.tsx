@@ -1,39 +1,52 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   ScrollView,
   Image,
   FlatList,
-  Dimensions,
   TouchableOpacity,
+  Animated,
 } from 'react-native';
-import { useSelector } from 'react-redux';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import { getStyles } from './styles';
-import { RootState } from '../../../../../shared/store/redux/rootReducer';
-import { dummyLeagueSeasonData } from './dummy-data';
 import { BasketColLayout } from '../../../../../shared/layout/BasketColLayout';
 import { SlideModalComponent } from '../../../../../shared/components/SlideModalComponent';
 import { PlayerUserCardComponent } from '../../../../../users/player/components/PlayerUserCardComponent';
-import { type PlayerUserCompetitionsStackNavigatorParamList } from '../../../../../users/player/navigation/PlayerUserBottomNavigator';
 import { PlayerUserHttpResponseDTO } from '../../../../../../basketCol/users/player/application/dtos/PlayerUserHttpResponseDTO';
 import { EnhancedCalendarComponent } from '../../../../../shared/components/EnhancedCalendarComponent';
+import { useLeagueSeasonOverviewScreenLogic } from '../../hooks/useLeagueSeasonOverviewScreenLogic';
+import { LeagueSeasonFixtureHttpResponseDTO } from '../../../../../../basketCol/competitions/league/season/fixture/application/dtos/LeagueSeasonFixtureHttpResponseDTO';
+import { LeagueSeasonOverviewScreenSkeleton } from './LeagueSeasonOverviewScreenSkeleton';
 
 export function LeagueSeasonOverviewScreen(): React.JSX.Element {
-  const { theme, themeMode } = useSelector((state: RootState) => state.theme);
-  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
-  const fixturesRef = useRef<FlatList>(null);
-  const { width: SCREEN_WIDTH } = Dimensions.get('window');
+  const {
+    isLoading,
+    theme,
+    themeMode,
+    isCalendarVisible,
+    SCREEN_WIDTH,
+    fixturesRef,
+    mvpsRef,
+    navigation,
+    data: {
+      league,
+      leagueSeason,
+      leagueSeasonAwards,
+      leagueSeasonFixtures,
+      playerUserList,
+    },
+    setIsCalendarVisible,
+    formatDateFn,
+    getPlayerAwardPositionFn,
+  } = useLeagueSeasonOverviewScreenLogic();
+  const fadeAnim = React.useRef(new Animated.Value(0.5)).current;
   const styles = getStyles(theme);
-  const mvpsRef = useRef<FlatList>(null);
-  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueSeasonOverview'>>();
 
-  const renderFixtureCard = ({ item }: { item: any }) => (
+  const renderFixtureCard = ({ item }: { item: LeagueSeasonFixtureHttpResponseDTO }) => (
     <TouchableOpacity
       style={[styles.fixtureCard, { width: SCREEN_WIDTH * 0.7 }]}
-      onPress={() => navigation.navigate('leagueSeasonFixtureOverview')}
+      onPress={() => navigation.navigate('leagueSeasonFixtureOverview', { leagueSeasonFixtureId: item.id })}
     >
       <View
         style={[
@@ -42,7 +55,7 @@ export function LeagueSeasonOverviewScreen(): React.JSX.Element {
         ]}
       >
         <Text style={styles.fixtureCardTitle} numberOfLines={2}>
-          Jornada 1
+          {item.name}
         </Text>
         <Text style={styles.fixtureCardDate}>
           {item.date}
@@ -56,15 +69,45 @@ export function LeagueSeasonOverviewScreen(): React.JSX.Element {
       <PlayerUserCardComponent
         playerUserDto={item}
         appTheme={theme}
-        position="Forward"
+        position={getPlayerAwardPositionFn(item.id)}
         teamLogo={null}
         themeMode={themeMode}
         isSmall
         showFullPosition
-        onPress={() => navigation.navigate('playerUserProfileOverview', { isMyProfileView: false, playerUserId: '' })}
+        onPress={() => navigation.navigate('playerUserProfileOverview', {
+          isMyProfileView: false,
+          playerUserId: item.id,
+        })}
       />
     </View>
   );
+
+  React.useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 0.2,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 0.5,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+  }, []);
+
+  if (isLoading || !leagueSeason || !leagueSeasonFixtures || !league) {
+    return (
+      <LeagueSeasonOverviewScreenSkeleton
+        theme={theme}
+        fadeAnim={fadeAnim}
+        themeMode={themeMode}
+      />
+    );
+  }
 
   return (
     <BasketColLayout
@@ -80,11 +123,24 @@ export function LeagueSeasonOverviewScreen(): React.JSX.Element {
         onClose={() => setIsCalendarVisible(false)}
       >
         <EnhancedCalendarComponent
-          enhancedMarkedDates={dummyLeagueSeasonData.fixtures}
+          enhancedMarkedDates={leagueSeasonFixtures.reduce((acc, fixture) => {
+            // eslint-disable-next-line no-param-reassign
+            acc[formatDateFn(fixture.date)] = {
+              marked: true,
+              dotColor: 'red',
+              description: fixture.name || 'Fixture',
+            };
+            return acc;
+          }, {} as Record<string, { marked: boolean; dotColor: string; description: string }>)}
           onDayPress={(day) => {
-            const fixture: string[] = Object.keys(dummyLeagueSeasonData.fixtures);
-            if (fixture.includes(day.dateString)) {
-              navigation.navigate('leagueSeasonFixtureOverview');
+            const matchingFixture = leagueSeasonFixtures.find(
+              (fixture) => formatDateFn(fixture.date) === day.dateString,
+            );
+
+            if (matchingFixture) {
+              navigation.navigate('leagueSeasonFixtureOverview', {
+                leagueSeasonFixtureId: matchingFixture.id,
+              });
               setIsCalendarVisible(false);
             }
           }}
@@ -97,36 +153,32 @@ export function LeagueSeasonOverviewScreen(): React.JSX.Element {
       >
         {/* Header Section */}
         <View style={styles.headerContainer}>
-          {/* Imagen de fondo */}
           <Image
             source={require('./background-league-season-screen.jpg')}
             style={styles.headerBackground}
           />
-          {/* Overlay semitransparente */}
           <View style={styles.headerOverlay} />
 
-          {/* Contenido del header */}
-          <Text style={styles.leagueName}>Nombre de la Liga</Text>
+          <Text style={styles.leagueName}>{league.name.official}</Text>
           <View style={styles.seasonDetailsContainer}>
-            <Text style={styles.seasonDetails}>Detalles de la Temporada</Text>
+            <Text style={styles.seasonDetails}>{leagueSeason.name}</Text>
             <View style={styles.seasonStatusBadge}>
-              <Text style={styles.seasonStatusText}>Activa</Text>
+              <Text style={styles.seasonStatusText}>{leagueSeason.status}</Text>
             </View>
           </View>
         </View>
 
         {/* Fixtures Carousel */}
-        {/* Fixtures Carousel */}
         <View style={styles.carouselContainer}>
           <Text style={styles.sectionTitle}>Upcoming Fixtures</Text>
           <FlatList
             ref={fixturesRef}
-            data={dummyLeagueSeasonData.fixtures}
+            data={leagueSeasonFixtures}
             renderItem={renderFixtureCard}
-            keyExtractor={(item, index) => `fixture-${index}`}
+            keyExtractor={(item) => `fixture-${item.id}`}
             horizontal
             showsHorizontalScrollIndicator={false}
-            snapToInterval={SCREEN_WIDTH * 0.7 + 10} // Width of card + margin
+            snapToInterval={SCREEN_WIDTH * 0.7 + 10}
             decelerationRate="fast"
             contentContainerStyle={{
               paddingHorizontal: theme.spacing.medium,
@@ -134,23 +186,25 @@ export function LeagueSeasonOverviewScreen(): React.JSX.Element {
           />
         </View>
 
-        {/* MVPs Carousel */}
-        <View style={styles.carouselContainer}>
-          <Text style={styles.sectionTitle}>Season MVPs</Text>
-          <FlatList
-            ref={mvpsRef}
-            data={dummyLeagueSeasonData.players}
-            renderItem={renderMVPCard}
-            keyExtractor={(item, index) => `mvp-${index}`}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={SCREEN_WIDTH * 0.6 + 10} // Width of card + margin
-            decelerationRate="fast"
-            contentContainerStyle={{
-              paddingHorizontal: theme.spacing.medium,
-            }}
-          />
-        </View>
+        {/* MVPs Carousel - Only show if leagueSeasonAwards exists */}
+        {leagueSeasonAwards && (
+          <View style={styles.carouselContainer}>
+            <Text style={styles.sectionTitle}>Season MVPs</Text>
+            <FlatList
+              ref={mvpsRef}
+              data={playerUserList}
+              renderItem={renderMVPCard}
+              keyExtractor={(item, index) => `mvp-${index}-${item.id}`}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              snapToInterval={SCREEN_WIDTH * 0.6 + 10}
+              decelerationRate="fast"
+              contentContainerStyle={{
+                paddingHorizontal: theme.spacing.medium,
+              }}
+            />
+          </View>
+        )}
       </ScrollView>
     </BasketColLayout>
   );
