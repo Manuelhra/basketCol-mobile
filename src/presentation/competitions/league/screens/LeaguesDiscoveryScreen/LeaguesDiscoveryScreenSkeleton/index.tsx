@@ -30,11 +30,7 @@ export function LeaguesDiscoveryScreenSkeleton(): React.JSX.Element {
   }, []);
 
   return (
-    <BasketColLayout
-      rightIcons={[
-        { icon: 'menu', action: () => {} },
-      ]}
-    >
+    <BasketColLayout>
       <View style={styles.container}>
         <ScrollView
           contentContainerStyle={styles.scrollViewContent}

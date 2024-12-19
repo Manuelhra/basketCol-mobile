@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { getStyles } from './styles';
 import { RootState } from '../../../../shared/store/redux/rootReducer';
+import { BasketColLayout } from '../../../../shared/layout/BasketColLayout';
 
 export function TeamOverviewScreenSkeleton(): React.JSX.Element {
   const { theme, themeMode } = useSelector((state: RootState) => state.theme);
@@ -30,50 +31,52 @@ export function TeamOverviewScreenSkeleton(): React.JSX.Element {
   }, [fadeAnim]);
 
   return (
-    <Animated.View style={[
-      styles.container,
-      { opacity: fadeAnim },
-    ]}
-    >
-      {/* Header Skeleton */}
+    <BasketColLayout>
       <Animated.View style={[
-        styles.teamHeaderSkeleton,
+        styles.container,
         { opacity: fadeAnim },
       ]}
       >
-        <View style={styles.teamLogoSkeleton} />
-        <View style={styles.teamNameSkeleton} />
-        <View style={styles.teamGenderSkeleton} />
-      </Animated.View>
+        {/* Header Skeleton */}
+        <Animated.View style={[
+          styles.teamHeaderSkeleton,
+          { opacity: fadeAnim },
+        ]}
+        >
+          <View style={styles.teamLogoSkeleton} />
+          <View style={styles.teamNameSkeleton} />
+          <View style={styles.teamGenderSkeleton} />
+        </Animated.View>
 
-      {/* Stats Skeleton */}
-      <Animated.View style={[
-        styles.teamStatsSkeletonContainer,
-        { opacity: fadeAnim },
-      ]}
-      >
-        {Array.from({ length: 4 }).map((_, index) => (
+        {/* Stats Skeleton */}
+        <Animated.View style={[
+          styles.teamStatsSkeletonContainer,
+          { opacity: fadeAnim },
+        ]}
+        >
+          {Array.from({ length: 4 }).map((_, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <View key={index} style={styles.statBoxSkeleton} />
-        ))}
-      </Animated.View>
-
-      {/* Roster Skeleton */}
-      <View style={styles.teamRosterSkeleton}>
-        <View style={styles.sectionTitleSkeleton} />
-        <View style={styles.playerCardSkeletonGrid}>
-          {Array.from({ length: 6 }).map((_, index) => (
-            <Animated.View
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              style={[
-                styles.playerCardSkeleton,
-                { opacity: fadeAnim },
-              ]}
-            />
+            <View key={index} style={styles.statBoxSkeleton} />
           ))}
+        </Animated.View>
+
+        {/* Roster Skeleton */}
+        <View style={styles.teamRosterSkeleton}>
+          <View style={styles.sectionTitleSkeleton} />
+          <View style={styles.playerCardSkeletonGrid}>
+            {Array.from({ length: 6 }).map((_, index) => (
+              <Animated.View
+              // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                style={[
+                  styles.playerCardSkeleton,
+                  { opacity: fadeAnim },
+                ]}
+              />
+            ))}
+          </View>
         </View>
-      </View>
-    </Animated.View>
+      </Animated.View>
+    </BasketColLayout>
   );
 }

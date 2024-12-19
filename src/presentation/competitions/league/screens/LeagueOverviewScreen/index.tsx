@@ -33,11 +33,12 @@ export function LeagueOverviewScreen(): React.JSX.Element {
     },
   } = useLeagueOverviewScreenLogic();
   const styles = getStyles(theme, width);
+  const fadeAnim = React.useRef(new Animated.Value(0.5)).current;
 
   const renderSeasonCard = ({ item: season }: { item: LeagueSeasonHttpResponseDTO }) => (
     <TouchableOpacity
       key={season.id}
-      onPress={() => navigation.navigate('leagueSeasonOverview')}
+      onPress={() => navigation.navigate('leagueSeasonOverview', { leagueSeasonId: season.id })}
       style={[styles.seasonCard]}
     >
       <Text style={styles.seasonTitle}>{season.name}</Text>
@@ -69,8 +70,6 @@ export function LeagueOverviewScreen(): React.JSX.Element {
     />
   );
 
-  const fadeAnim = React.useRef(new Animated.Value(0.5)).current;
-
   React.useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -99,11 +98,7 @@ export function LeagueOverviewScreen(): React.JSX.Element {
   }
 
   return (
-    <BasketColLayout
-      rightIcons={[
-        { icon: 'clipboard-text', action: () => {} },
-      ]}
-    >
+    <BasketColLayout>
       <ScrollView
         style={styles.container}
         showsVerticalScrollIndicator={false}

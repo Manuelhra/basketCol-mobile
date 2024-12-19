@@ -8,7 +8,7 @@ export const useFindAllLeagueSeasonsByLeagueId = (findAllLeagueSeasonsByLeagueId
   const [requestError, setRequestError] = useState<DomainError[] | null>(null);
 
   const { isLoading, data } = useQuery({
-    queryKey: ['leagueSeasons'],
+    queryKey: ['leagueSeasons', leagueId],
     queryFn: async () => {
       const result = await findAllLeagueSeasonsByLeagueIdUseCase.execute({ leagueId });
 

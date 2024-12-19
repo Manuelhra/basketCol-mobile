@@ -138,11 +138,7 @@ export function TeamOverviewScreen() {
   );
 
   return (
-    <BasketColLayout
-      rightIcons={[
-        { icon: 'menu', action: () => {} },
-      ]}
-    >
+    <BasketColLayout>
       <ScrollView style={styles.container}>
         {renderTeamHeader()}
         {renderTeamStats()}

@@ -56,11 +56,7 @@ export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
   }
 
   return (
-    <BasketColLayout
-      rightIcons={[
-        { icon: 'menu', action: () => {} },
-      ]}
-    >
+    <BasketColLayout>
       <ScrollView style={styles.container}>
         <PlayerUserCardComponent
           playerUserDto={teamActivePlayer.playerUserInfo}

@@ -7,6 +7,7 @@ export interface LeagueSeasonAwardsHttpResponseDTO extends AggregateRootHttpResp
   bestAssistProviderId: string;
   bestOffensiveRebounderId: string;
   bestDefensiveRebounderId: string;
+  mostValuablePlayerId: string;
   championTeamId: string;
   leagueSeasonId: string;
 }

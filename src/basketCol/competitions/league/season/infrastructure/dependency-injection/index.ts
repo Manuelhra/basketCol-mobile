@@ -8,3 +8,4 @@ if (awilixLeagueSeasonContainer === null) {
 }
 
 export const findAllLeagueSeasonsByLeagueIdUseCase = awilixLeagueSeasonContainer.resolve('findAllLeagueSeasonsByLeagueIdUseCase');
+export const findLeagueSeasonByIdUseCase = awilixLeagueSeasonContainer.resolve('findLeagueSeasonByIdUseCase');

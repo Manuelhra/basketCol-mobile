@@ -40,11 +40,7 @@ export function LeaguesDiscoveryScreen(): React.JSX.Element {
   }
 
   return (
-    <BasketColLayout
-      rightIcons={[
-        { icon: 'menu', action: () => {} },
-      ]}
-    >
+    <BasketColLayout>
       <View style={styles.scrollContainer}>
         <ScrollView style={styles.scrollContainer}>
           {data.leagues.map((league) => (

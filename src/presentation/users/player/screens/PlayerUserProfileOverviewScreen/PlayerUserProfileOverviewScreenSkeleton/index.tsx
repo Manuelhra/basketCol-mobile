@@ -39,11 +39,7 @@ export function PlayerUserProfileOverviewScreenSkeleton({
   }, []);
 
   return (
-    <BasketColLayout
-      rightIcons={[
-        { icon: 'cards-heart-outline', action: () => {} },
-      ]}
-    >
+    <BasketColLayout>
       <ScrollView style={styles.container}>
         <PlayerUserCardComponentSkeleton
           theme={theme}
