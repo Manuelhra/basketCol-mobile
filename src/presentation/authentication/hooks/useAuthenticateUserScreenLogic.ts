@@ -54,7 +54,7 @@ export function useAuthenticateUserScreenLogic() {
         dispatch(authenticationActions.clearErrors());
 
         const { authenticatedUser } = data.right();
-        authenticationActions.setAuthenticatedUser(authenticatedUser.toPrimitives);
+        dispatch(authenticationActions.setAuthenticatedUser(authenticatedUser.toPrimitives));
       }
     }
   }, [data, navigation, dispatch]);
