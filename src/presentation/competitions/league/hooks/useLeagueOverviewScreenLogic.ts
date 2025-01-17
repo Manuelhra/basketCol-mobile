@@ -19,8 +19,8 @@ import { findAllLeagueTeamsByLeagueIdUseCase } from '../../../../basketCol/compe
 export const useLeagueOverviewScreenLogic = () => {
   const { theme } = useSelector((state: RootState) => state.theme);
   const { width } = Dimensions.get('window');
-  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueOverview'>>();
-  const { params } = useRoute<RouteProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueOverview'>>();
+  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueOverviewScreen'>>();
+  const { params } = useRoute<RouteProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueOverviewScreen'>>();
 
   const {
     isLoading: isLoadingLeague,

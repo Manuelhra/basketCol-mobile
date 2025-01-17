@@ -4,20 +4,20 @@ import { View } from 'react-native';
 import { ITheme } from '../../../../shared/config/theme/ITheme';
 import { ThemeMode } from '../../../../shared/store/redux/slices/theme/theme.slice';
 import { getStyles } from './styles';
-import { PlayerUserAttributeCategory } from './PlayerUserAttributeCategory';
+import { PlayerUserAttributeCategoryComponent } from './PlayerUserAttributeCategoryComponent';
 import { ATTRIBUTE_COLORS, AttributeColorKey } from '../../../../shared/config/theme/constants/player-user-attributes';
 
-type PlayerUserAttributesSectionProps = {
+type AttributesSectionComponentProps = {
   theme: ITheme;
   themeMode: ThemeMode;
   processedAttributes: ProcessedAttributes | null;
 };
 
-export function PlayerUserAttributesSection({
+export function AttributesSectionComponent({
   theme,
   themeMode,
   processedAttributes,
-}: PlayerUserAttributesSectionProps): React.JSX.Element {
+}: AttributesSectionComponentProps): React.JSX.Element {
   const styles = getStyles(theme, themeMode);
 
   if (processedAttributes === null) return <></>;
@@ -28,7 +28,7 @@ export function PlayerUserAttributesSection({
         if (!value) return null;
 
         return (
-          <PlayerUserAttributeCategory
+          <PlayerUserAttributeCategoryComponent
             key={key}
             title={key.charAt(0).toUpperCase() + key.slice(1)}
             attributes={value}

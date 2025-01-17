@@ -5,7 +5,7 @@ import { getStyles } from './styles';
 import { ITheme } from '../../../../shared/config/theme/ITheme';
 import { ThemeMode } from '../../../../shared/store/redux/slices/theme/theme.slice';
 
-type PlayerUserAttributeBarProps = {
+type PlayerUserAttributeBarComponentProps = {
   label: string;
   value: number;
   color: string;
@@ -13,13 +13,13 @@ type PlayerUserAttributeBarProps = {
   themeMode: ThemeMode;
 };
 
-export function PlayerUserAttributeBar({
+export function PlayerUserAttributeBarComponent({
   label,
   value,
   color,
   appTheme,
   themeMode,
-}: PlayerUserAttributeBarProps): React.JSX.Element {
+}: PlayerUserAttributeBarComponentProps): React.JSX.Element {
   const styles = getStyles(appTheme, themeMode);
 
   return (

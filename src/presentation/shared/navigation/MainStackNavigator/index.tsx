@@ -4,9 +4,11 @@ import { createStackNavigator, StackCardStyleInterpolator } from '@react-navigat
 import { AuthenticateUserScreen } from '../../../authentication/screens/AuthenticateUserScreen';
 import { SplashScreen } from '../../screens/SplashScreen';
 import { UserBottomNavigator } from '../UserBottomNavigator';
+import { HomeScreen } from '../../screens/HomeScreen';
 
 export type MainStackNavigatorParamList = {
   splashScreen: undefined;
+  homeScreen: undefined;
   authenticateUserScreen: undefined;
   userBottomNavigator: undefined;
 };
@@ -26,6 +28,7 @@ export function MainStackNavigator(): React.JSX.Element {
       screenOptions={{ headerShown: false, cardStyleInterpolator: fadeAnimation }}
     >
       <Stack.Screen name="splashScreen" component={SplashScreen} />
+      <Stack.Screen name="homeScreen" component={HomeScreen} />
       <Stack.Screen name="authenticateUserScreen" component={AuthenticateUserScreen} />
       <Stack.Screen name="userBottomNavigator" component={UserBottomNavigator} />
 

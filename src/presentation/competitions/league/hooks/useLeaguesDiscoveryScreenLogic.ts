@@ -18,8 +18,8 @@ import { useSearchAllLeagues } from './tan-stack-query/useSearchAllLeagues';
 
 export const useLeaguesDiscoveryScreenLogic = () => {
   const { theme, themeMode } = useSelector((state: RootState) => state.theme);
-  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leaguesDiscovery'>>();
-  const { name } = useRoute<RouteProp<PlayerUserBottomNavigatorParamList, 'competitions'>>();
+  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leaguesDiscoveryScreen'>>();
+  const { name } = useRoute<RouteProp<PlayerUserBottomNavigatorParamList, 'competitionsScreen'>>();
 
   const {
     data,
@@ -28,7 +28,7 @@ export const useLeaguesDiscoveryScreenLogic = () => {
   } = useSearchAllLeagues(searchAllLeaguesUseCase);
 
   const handleLeaguePress = (leagueId: string) => {
-    navigation.navigate('leagueOverview', { leagueId });
+    navigation.navigate('leagueOverviewScreen', { leagueId });
   };
 
   const handleReload = useCallback(() => {

@@ -18,8 +18,8 @@ import { findAllLeagueSeasonFixtureGamesByFixtureIdUseCase } from '../../../../.
 export const useLeagueSeasonFixtureOverviewScreenLogic = () => {
   const insets = useSafeAreaInsets();
   const { theme, themeMode } = useSelector((state: RootState) => state.theme);
-  const { params, name } = useRoute<RouteProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueSeasonFixtureOverview'>>();
-  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueSeasonFixtureOverview'>>();
+  const { params, name } = useRoute<RouteProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueSeasonFixtureOverviewScreen'>>();
+  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueSeasonFixtureOverviewScreen'>>();
 
   const ERROR_MESSAGE = 'Lo sentimos, ha ocurrido un error al cargar la información. Por favor, inténtalo de nuevo más tarde.';
 

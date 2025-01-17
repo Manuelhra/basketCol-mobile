@@ -38,7 +38,7 @@ export function LeagueOverviewScreen(): React.JSX.Element {
   const renderSeasonCard = ({ item: season }: { item: LeagueSeasonHttpResponseDTO }) => (
     <TouchableOpacity
       key={season.id}
-      onPress={() => navigation.navigate('leagueSeasonOverview', { leagueSeasonId: season.id })}
+      onPress={() => navigation.navigate('leagueSeasonOverviewScreen', { leagueSeasonId: season.id })}
       style={[styles.seasonCard]}
     >
       <Text style={styles.seasonTitle}>{season.name}</Text>
@@ -66,7 +66,7 @@ export function LeagueOverviewScreen(): React.JSX.Element {
       appTheme={theme}
       themeMode={width > 600 ? 'light' : 'dark'}
       isSmall
-      onPress={() => navigation.navigate('teamOverview', { isMyTeamView: false, teamId: team.id })}
+      onPress={() => navigation.navigate('teamOverviewScreen', { isMyTeamScreen: false, teamId: team.id })}
     />
   );
 

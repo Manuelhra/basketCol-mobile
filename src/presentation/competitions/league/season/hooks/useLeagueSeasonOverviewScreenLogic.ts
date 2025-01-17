@@ -35,8 +35,8 @@ export const useLeagueSeasonOverviewScreenLogic = () => {
   const fixturesRef = useRef<FlatList>(null);
   const { width: SCREEN_WIDTH } = Dimensions.get('window');
   const mvpsRef = useRef<FlatList>(null);
-  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueSeasonOverview'>>();
-  const { params } = useRoute<RouteProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueSeasonOverview'>>();
+  const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueSeasonOverviewScreen'>>();
+  const { params } = useRoute<RouteProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueSeasonOverviewScreen'>>();
 
   const {
     isLoading: isLoadingLeagueSeason,

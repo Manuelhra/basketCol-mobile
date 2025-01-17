@@ -26,15 +26,15 @@ import { useFindTeamActivePlayer } from '../../users/player/hooks/tan-stack-quer
 const ERROR_MESSAGE = 'Lo sentimos, ha ocurrido un error al cargar la información. Por favor, inténtalo de nuevo más tarde.';
 
 export const useTeamOverviewScreenLogic = () => {
-  const { params, name } = useRoute<RouteProp<PlayerUserMyTeamStackNavigatorParamList, 'teamOverview'>>();
+  const { params, name } = useRoute<RouteProp<PlayerUserMyTeamStackNavigatorParamList, 'teamOverviewScreen'>>();
   const { authenticatedUser } = useSelector((state: RootState) => state.authentication);
-  const navigation = useNavigation<NavigationProp<PlayerUserMyTeamStackNavigatorParamList, 'teamOverview'>>();
+  const navigation = useNavigation<NavigationProp<PlayerUserMyTeamStackNavigatorParamList, 'teamOverviewScreen'>>();
   // Only fetch active team if it's my team view
   let teamActivePlayer;
   let isLoadingFindTeamActivePlayer;
   let requestErrorFindTeamActivePlayer;
 
-  if (params.isMyTeamView) {
+  if (params.isMyTeamScreen) {
     ({ teamActivePlayer, isLoading: isLoadingFindTeamActivePlayer, requestError: requestErrorFindTeamActivePlayer } = useFindTeamActivePlayer(
       findTeamActivePlayerUseCase,
       authenticatedUser?.id ?? '',
@@ -46,13 +46,13 @@ export const useTeamOverviewScreenLogic = () => {
   }
   // Determine teamId with fallback and memoization
   const teamId = useMemo(() => {
-    if (params.isMyTeamView) {
+    if (params.isMyTeamScreen) {
       // Prioritize teamActivePlayer if available
       return teamActivePlayer?.teamInfo.id.value || '';
     }
     // Use params teamId for non-my team view
     return params.teamId;
-  }, [params.isMyTeamView, params, teamActivePlayer]);
+  }, [params.isMyTeamScreen, params, teamActivePlayer]);
 
   const handleReload = () => {
     navigation.dispatch(
@@ -60,9 +60,9 @@ export const useTeamOverviewScreenLogic = () => {
         index: 0,
         routes: [{
           name,
-          params: params.isMyTeamView
-            ? { isMyTeamView: true }
-            : { isMyTeamView: false, teamId: params.teamId },
+          params: params.isMyTeamScreen
+            ? { isMyTeamScreen: true }
+            : { isMyTeamScreen: false, teamId: params.teamId },
         }],
       }),
     );
@@ -116,7 +116,7 @@ export const useTeamOverviewScreenLogic = () => {
     return {
       teamPlayerHttpResponseDTO,
       isCurrentUser,
-      onPress: () => navigation.navigate('playerUserProfileOverview', { isMyProfileView: false, playerUserId: teamPlayerHttpResponseDTO.playerUser.id }),
+      onPress: () => navigation.navigate('playerUserProfileOverviewScreen', { isMyProfileScreen: false, playerUserId: teamPlayerHttpResponseDTO.playerUser.id }),
     };
   };
 

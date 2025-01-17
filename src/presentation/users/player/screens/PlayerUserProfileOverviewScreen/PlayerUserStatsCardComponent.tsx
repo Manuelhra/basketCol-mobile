@@ -5,19 +5,19 @@ import { getStyles } from './styles';
 import { ITheme } from '../../../../shared/config/theme/ITheme';
 import { ThemeMode } from '../../../../shared/store/redux/slices/theme/theme.slice';
 
-type PlayerUserStatsCardProps = {
+type PlayerUserStatsCardComponentProps = {
   title: string;
   value: string | number;
   appTheme: ITheme;
   themeMode: ThemeMode;
 };
 
-export function PlayerUserStatsCard({
+export function PlayerUserStatsCardComponent({
   title,
   value,
   appTheme,
   themeMode,
-}: PlayerUserStatsCardProps): React.JSX.Element {
+}: PlayerUserStatsCardComponentProps): React.JSX.Element {
   const styles = getStyles(appTheme, themeMode);
 
   return (
