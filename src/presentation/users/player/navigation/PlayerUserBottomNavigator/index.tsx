@@ -5,7 +5,6 @@ import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navig
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { RootState } from '../../../../shared/store/redux/rootReducer';
-import { PlayerUserHomeScreen } from '../../screens/PlayerUserHomeScreen';
 import { getStyles } from './styles';
 import { MaterialCommunityIconComponent } from '../../../../shared/components/MaterialCommunityIconComponent';
 import { PlayerUserProfileOverviewScreen } from '../../screens/PlayerUserProfileOverviewScreen';
@@ -15,6 +14,7 @@ import { LeaguesDiscoveryScreen } from '../../../../competitions/league/screens/
 import { LeagueOverviewScreen } from '../../../../competitions/league/screens/LeagueOverviewScreen';
 import { LeagueSeasonOverviewScreen } from '../../../../competitions/league/season/screens/LeagueSeasonOverviewScreen';
 import { LeagueSeasonFixtureOverviewScreen } from '../../../../competitions/league/season/fixture/screens/LeagueSeasonFixtureOverviewScreen';
+import { HomeScreen } from '../../../../shared/screens/HomeScreen';
 
 export type PlayerUserBottomNavigatorParamList = {
   home: undefined;
@@ -97,7 +97,7 @@ export function PlayerUserBottomNavigator(): React.JSX.Element {
     >
       <Tab.Screen
         name="home"
-        component={PlayerUserHomeScreen}
+        component={HomeScreen}
         options={{
           tabBarIcon: ({ color, focused }) => getTabIcon('home', focused, color),
         }}

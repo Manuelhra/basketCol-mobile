@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 
-import { PlayerUserStatsCard } from './PlayerUserStatsCard';
-import { PlayerUserAttributesSection } from './AttributesSection';
+import { PlayerUserStatsCardComponent } from './PlayerUserStatsCardComponent';
+import { AttributesSectionComponent } from './AttributesSectionComponent';
 import { ErrorModalComponent } from '../../../../shared/components/ErrorModalComponent';
 import { getStyles } from './styles';
 import { usePlayerUserProfileOverviewScreenLogic } from '../../hooks/usePlayerUserProfileOverviewScreenLogic';
@@ -68,7 +68,7 @@ export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
 
         <View style={styles.statsOverview}>
           {Object.entries(MOCK_STATS).map(([title, value]) => (
-            <PlayerUserStatsCard
+            <PlayerUserStatsCardComponent
               key={title}
               title={title.toUpperCase()}
               value={value}
@@ -78,7 +78,7 @@ export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
           ))}
         </View>
 
-        <PlayerUserAttributesSection
+        <AttributesSectionComponent
           theme={theme}
           themeMode={themeMode}
           processedAttributes={processedAttributes}
