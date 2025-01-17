@@ -46,7 +46,7 @@ export function LeagueSeasonOverviewScreen(): React.JSX.Element {
   const renderFixtureCard = ({ item }: { item: LeagueSeasonFixtureHttpResponseDTO }) => (
     <TouchableOpacity
       style={[styles.fixtureCard, { width: SCREEN_WIDTH * 0.7 }]}
-      onPress={() => navigation.navigate('leagueSeasonFixtureOverview', { leagueSeasonFixtureId: item.id })}
+      onPress={() => navigation.navigate('leagueSeasonFixtureOverviewScreen', { leagueSeasonFixtureId: item.id })}
     >
       <View
         style={[
@@ -74,8 +74,8 @@ export function LeagueSeasonOverviewScreen(): React.JSX.Element {
         themeMode={themeMode}
         isSmall
         showFullPosition
-        onPress={() => navigation.navigate('playerUserProfileOverview', {
-          isMyProfileView: false,
+        onPress={() => navigation.navigate('playerUserProfileOverviewScreen', {
+          isMyProfileScreen: false,
           playerUserId: item.id,
         })}
       />
@@ -138,7 +138,7 @@ export function LeagueSeasonOverviewScreen(): React.JSX.Element {
             );
 
             if (matchingFixture) {
-              navigation.navigate('leagueSeasonFixtureOverview', {
+              navigation.navigate('leagueSeasonFixtureOverviewScreen', {
                 leagueSeasonFixtureId: matchingFixture.id,
               });
               setIsCalendarVisible(false);

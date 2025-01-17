@@ -16,7 +16,7 @@ export function useTeamIdLogic(params: any, authenticatedUserId: string | undefi
   } = useFindTeamActivePlayer(findTeamActivePlayerUseCase, authenticatedUserId ?? '');
 
   useEffect(() => {
-    if (params.isMyTeamView) {
+    if (params.isMyTeamScreen) {
       setTeamId(teamActivePlayer?.teamInfo.id.value ?? '');
       setIsLoading(isLoadingFindTeamActivePlayer);
       setRequestError(requestErrorFindTeamActivePlayer);

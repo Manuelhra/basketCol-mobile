@@ -42,7 +42,7 @@ export function AuthenticationProvider({ children }: AuthenticationProviderProps
     if (isAuthenticated === false) {
       navigation.reset({
         index: 0,
-        routes: [{ name: 'authenticateUserScreen' }],
+        routes: [{ name: 'homeScreen' }],
       });
     }
 

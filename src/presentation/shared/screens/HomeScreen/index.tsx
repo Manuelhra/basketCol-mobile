@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import {
   View,
   ScrollView,
@@ -15,19 +16,25 @@ import { BasketColLayout } from '../../layout/BasketColLayout';
 import { FeatureCardComponent } from './FeatureCardComponent';
 import { ComingSoonItemComponent } from './ComingSoonItemComponent';
 import { RootState } from '../../store/redux/rootReducer';
+import { type MainStackNavigatorParamList } from '../../navigation/MainStackNavigator';
 
 export function HomeScreen(): React.JSX.Element {
-  const { theme, themeMode } = useSelector((state: RootState) => state.theme);
+  const { theme: { theme, themeMode }, authentication } = useSelector((state: RootState) => state);
+  const navigation = useNavigation<NavigationProp<MainStackNavigatorParamList>>();
   const styles = getStyles(theme, themeMode);
 
   const handleInstagramPress = () => {
     Linking.openURL('https://www.instagram.com/manuelh_ra');
   };
 
+  const handleSignIn = () => {
+    navigation.navigate('authenticateUserScreen');
+  };
+
   return (
     <BasketColLayout>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        {/* Hero Section Mejorado */}
+        {/* Hero Section */}
         <View style={styles.heroSection}>
           <ImageBackground
             source={require('./basketball-court.jpg')}
@@ -39,6 +46,25 @@ export function HomeScreen(): React.JSX.Element {
                 <Text style={styles.heroSubtitle}>
                   ¿Y si creamos la comunidad de baloncesto más chimba?
                 </Text>
+                {/* Conditional Auth Section */}
+                <View style={styles.authContainer}>
+                  {authentication.isAuthenticated ? (
+                    <View style={styles.welcomeContainer}>
+                      <Text style={styles.welcomeLabel}>Bienvenido</Text>
+                      <Text style={styles.userName}>
+                        {`${authentication.authenticatedUser?.name.firstName} ${authentication.authenticatedUser?.name.lastName}`}
+                      </Text>
+                    </View>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.signInButton}
+                      onPress={handleSignIn}
+                      activeOpacity={0.8}
+                    >
+                      <Text style={styles.signInButtonText}>Iniciar Sesión</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
                 <View style={styles.heroStats}>
                   <View style={styles.statItem}>
                     <Text style={styles.statNumber}>100+</Text>

@@ -20,7 +20,7 @@ export const getStyles = (theme: ITheme, themeMode: ThemeMode, ITEM_WIDTH?: numb
   heroOverlay: {
     flex: 1,
     backgroundColor: themeMode === 'light'
-      ? 'rgba(156, 39, 176, 0.3)'
+      ? 'rgba(156, 39, 176, 0.2)'
       : 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
     padding: theme.spacing.xlarge,
@@ -45,6 +45,53 @@ export const getStyles = (theme: ITheme, themeMode: ThemeMode, ITEM_WIDTH?: numb
     textAlign: 'center',
     opacity: 0.9,
     marginBottom: theme.spacing.xlarge,
+  },
+  authContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing.medium,
+    marginBottom: theme.spacing.xlarge,
+    width: '100%',
+  },
+  signInButton: {
+    backgroundColor: themeMode === 'light' ? 'rgba(255, 255, 255, 0.9)' : theme.colors.quaternary,
+    paddingVertical: theme.spacing.medium,
+    paddingHorizontal: theme.spacing.xlarge,
+    borderRadius: theme.borderRadius.medium,
+    minWidth: 150,
+    alignItems: 'center',
+  },
+  signInButtonText: {
+    fontFamily: theme.fonts.bold,
+    fontSize: 16,
+    color: themeMode === 'light' ? theme.colors.quaternary : theme.colors.text,
+  },
+  welcomeContainer: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    paddingVertical: theme.spacing.large,
+    paddingHorizontal: theme.spacing.xlarge,
+    borderRadius: theme.borderRadius.large,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  welcomeLabel: {
+    fontFamily: theme.fonts.regular,
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.9)',
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+    marginBottom: theme.spacing.small,
+  },
+  userName: {
+    fontFamily: theme.fonts.heading,
+    fontSize: 28,
+    color: theme.colors.quaternary,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0,0,0,0.3)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
   heroStats: {
     flexDirection: 'row',

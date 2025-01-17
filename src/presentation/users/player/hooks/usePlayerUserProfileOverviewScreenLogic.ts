@@ -34,8 +34,8 @@ const extractAttributes = (attributes: BaseAttributes | null | undefined): Recor
 export const usePlayerUserProfileOverviewScreenLogic = () => {
   const { theme, themeMode } = useSelector((state: RootState) => state.theme);
   const { authenticatedUser } = useSelector((state: RootState) => state.authentication);
-  const navigation = useNavigation<NavigationProp<PlayerUserBottomNavigatorParamList, 'myProfile'>>();
-  const { params, name } = useRoute<RouteProp<PlayerUserBottomNavigatorParamList, 'myProfile'>>();
+  const navigation = useNavigation<NavigationProp<PlayerUserBottomNavigatorParamList, 'myProfileScreen'>>();
+  const { params, name } = useRoute<RouteProp<PlayerUserBottomNavigatorParamList, 'myProfileScreen'>>();
 
   const handleReload = useCallback(() => {
     navigation.dispatch(
@@ -43,7 +43,7 @@ export const usePlayerUserProfileOverviewScreenLogic = () => {
         index: 0,
         routes: [{
           name,
-          params: params.isMyProfileView ? { isMyProfileView: true } : { isMyProfileView: false, playerUserId: params.playerUserId },
+          params: params.isMyProfileScreen ? { isMyProfileScreen: true } : { isMyProfileScreen: false, playerUserId: params.playerUserId },
         }],
       }),
     );
@@ -55,14 +55,14 @@ export const usePlayerUserProfileOverviewScreenLogic = () => {
     playerUserAttributeCategories,
   } = useGetPlayerUserAttributeCategories(
     getPlayerUserAttributeCategoriesUseCase,
-    params.isMyProfileView ? authenticatedUser?.id ?? '' : params.playerUserId,
+    params.isMyProfileScreen ? authenticatedUser?.id ?? '' : params.playerUserId,
   );
 
   const {
     isLoading: isLoadingTeam,
     requestError: teamError,
     teamActivePlayer,
-  } = useFindTeamActivePlayer(findTeamActivePlayerUseCase, params.isMyProfileView ? authenticatedUser?.id ?? '' : params.playerUserId);
+  } = useFindTeamActivePlayer(findTeamActivePlayerUseCase, params.isMyProfileScreen ? authenticatedUser?.id ?? '' : params.playerUserId);
 
   const processedAttributes: ProcessedAttributes = {
     defensive: extractAttributes(safeExtractPrimitives(playerUserAttributeCategories?.defensiveAttributes)),
