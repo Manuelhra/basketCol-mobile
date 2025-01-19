@@ -10,10 +10,11 @@ import {
 import { getStyles } from './styles';
 import { ITheme } from '../../../../shared/config/theme/ITheme';
 import { ThemeMode } from '../../../../shared/store/redux/slices/theme/theme.slice';
-import { PlayerUserHttpResponseDTO } from '../../../../../basketCol/users/player/application/dtos/PlayerUserHttpResponseDTO';
 
 type PlayerUserCardComponentProps = {
-  playerUserDto: PlayerUserHttpResponseDTO;
+  firstName: string;
+  lastName: string;
+  profileImage: IImageValueObjectProps;
   position: string;
   teamLogo: IImageValueObjectProps | null;
   appTheme: ITheme;
@@ -54,7 +55,9 @@ const renderFloatingContent = (
 };
 
 export function PlayerUserCardComponent({
-  playerUserDto,
+  firstName,
+  lastName,
+  profileImage,
   position,
   teamLogo,
   appTheme,
@@ -72,8 +75,8 @@ export function PlayerUserCardComponent({
       onPress={onPress}
     >
       <Image
-        source={{ uri: playerUserDto.profileImage.url }}
-        alt={playerUserDto.profileImage.alt}
+        source={{ uri: profileImage.url }}
+        alt={profileImage.alt}
         style={styles.playerImage}
         resizeMode="cover"
       />
@@ -89,8 +92,8 @@ export function PlayerUserCardComponent({
               <Text style={styles.currentUserBadgeText}>YOU</Text>
             </View>
           )}
-          <Text style={styles.firstName}>{playerUserDto.name.firstName}</Text>
-          <Text style={styles.lastName}>{playerUserDto.name.lastName}</Text>
+          <Text style={styles.firstName}>{firstName}</Text>
+          <Text style={styles.lastName}>{lastName}</Text>
         </View>
       </View>
     </TouchableOpacity>

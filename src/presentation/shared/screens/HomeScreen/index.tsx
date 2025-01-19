@@ -19,7 +19,8 @@ import { RootState } from '../../store/redux/rootReducer';
 import { type MainStackNavigatorParamList } from '../../navigation/MainStackNavigator';
 
 export function HomeScreen(): React.JSX.Element {
-  const { theme: { theme, themeMode }, authentication } = useSelector((state: RootState) => state);
+  const { theme, themeMode } = useSelector((state: RootState) => state.theme);
+  const { authenticatedUser, isAuthenticated } = useSelector((state: RootState) => state.authentication);
   const navigation = useNavigation<NavigationProp<MainStackNavigatorParamList>>();
   const styles = getStyles(theme, themeMode);
 
@@ -48,11 +49,11 @@ export function HomeScreen(): React.JSX.Element {
                 </Text>
                 {/* Conditional Auth Section */}
                 <View style={styles.authContainer}>
-                  {authentication.isAuthenticated ? (
+                  {isAuthenticated ? (
                     <View style={styles.welcomeContainer}>
                       <Text style={styles.welcomeLabel}>Bienvenido</Text>
                       <Text style={styles.userName}>
-                        {`${authentication.authenticatedUser?.name.firstName} ${authentication.authenticatedUser?.name.lastName}`}
+                        {`${authenticatedUser?.name.firstName} ${authenticatedUser?.name.lastName}`}
                       </Text>
                     </View>
                   ) : (

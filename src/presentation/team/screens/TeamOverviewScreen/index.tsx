@@ -16,6 +16,7 @@ import { ErrorModalComponent } from '../../../shared/components/ErrorModalCompon
 import { TeamOverviewScreenSkeleton } from './TeamOverviewScreenSkeleton';
 import { useTeamOverviewScreenLogic } from '../../hooks/useTeamOverviewScreenLogic';
 import { RootState } from '../../../shared/store/redux/rootReducer';
+import { FeedbackBannerComponent } from '../../../shared/components/FeedbackBannerComponent';
 
 export function TeamOverviewScreen() {
   const { theme, themeMode } = useSelector((state: RootState) => state.theme);
@@ -33,7 +34,7 @@ export function TeamOverviewScreen() {
   } = useTeamOverviewScreenLogic();
 
   // Comprehensive loading and error handling
-  if (isLoading || !team || !teamAllTimeStats || !teamPlayerUserList) {
+  if (isLoading) {
     return <TeamOverviewScreenSkeleton />;
   }
 
@@ -50,6 +51,37 @@ export function TeamOverviewScreen() {
         />
         <TeamOverviewScreenSkeleton />
       </ScrollView>
+    );
+  }
+
+  // Feedback user
+  if (!team || !teamAllTimeStats || !teamPlayerUserList) {
+    return (
+      <BasketColLayout>
+        <View style={{
+          flex: 1,
+          padding: 15,
+          backgroundColor: theme.colors.background,
+        }}
+        >
+          <FeedbackBannerComponent
+            theme={theme}
+            themeMode={themeMode}
+            subtitle="¡Únete a un Equipo!"
+            description="Para competir en BasketCol necesitas ser parte de un equipo. Puedes crear tu propio equipo y ser capitán o unirte a uno existente. ¡Los mejores jugadores brillan en equipo! 🏀"
+            accentColor={theme.colors.tertiary} // Usando un color diferente al primary para destacar
+            primaryAction={{
+              label: '',
+              onPress: () => {},
+            // onPress: handleCreateTeam,
+            }}
+/*             secondaryAction={{
+              label: 'Explorar Equipos',
+            onPress: handleExploreTeams,
+            }} */
+          />
+        </View>
+      </BasketColLayout>
     );
   }
 
@@ -120,7 +152,9 @@ export function TeamOverviewScreen() {
               style={{ width: Dimensions.get('window').width / 2 - 30 }}
             >
               <PlayerUserCardComponent
-                playerUserDto={teamPlayer.playerUser}
+                firstName={teamPlayer.playerUser.name.firstName}
+                lastName={teamPlayer.playerUser.name.lastName}
+                profileImage={teamPlayer.playerUser.profileImage}
                 position={teamPlayer.position || ''}
                 teamLogo={null}
                 showFullPosition

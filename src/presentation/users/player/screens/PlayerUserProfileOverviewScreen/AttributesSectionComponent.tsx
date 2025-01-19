@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import { ITheme } from '../../../../shared/config/theme/ITheme';
 import { ThemeMode } from '../../../../shared/store/redux/slices/theme/theme.slice';
@@ -20,7 +20,27 @@ export function AttributesSectionComponent({
 }: AttributesSectionComponentProps): React.JSX.Element {
   const styles = getStyles(theme, themeMode);
 
-  if (processedAttributes === null) return <></>;
+  // Verifica si el usuario tiene todos los atributos necesarios
+  const isMissingAttributes = Object.values(processedAttributes ?? {}).some((value) => value === null);
+
+  if (isMissingAttributes || processedAttributes === null) {
+    return (
+      <View style={styles.emptySectionContainer}>
+        <View style={styles.card}>
+          <View style={styles.brandContainer}>
+            <Text style={styles.brandText}>BasketCol</Text>
+          </View>
+          <Text style={styles.title}>¡Únete al DRAFT!</Text>
+          <Text style={styles.description}>
+            Para desbloquear tus atributos de jugador, necesitas participar en una edición del DRAFT de la plataforma.
+          </Text>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Explorar DRAFT</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.attributesContainer}>

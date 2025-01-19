@@ -17,10 +17,12 @@ import { useLeagueOverviewScreenLogic } from '../../hooks/useLeagueOverviewScree
 import { TeamHttpResponseDTO } from '../../../../../basketCol/team/application/dtos/TeamHttpResponseDTO';
 import { LeagueSeasonHttpResponseDTO } from '../../../../../basketCol/competitions/league/season/application/dtos/LeagueSeasonHttpResponseDTO';
 import { LeagueOverviewScreenSkeleton } from './LeagueOverviewScreenSkeleton';
+import { EmptySectionComponent } from '../../../../shared/components/EmptySectionComponent';
 
 export function LeagueOverviewScreen(): React.JSX.Element {
   const {
     theme,
+    themeMode,
     width,
     navigation,
     isLoading,
@@ -28,7 +30,6 @@ export function LeagueOverviewScreen(): React.JSX.Element {
       league,
       leagueFounder,
       leagueSeasons,
-      leagueTeams,
       teamList,
     },
   } = useLeagueOverviewScreenLogic();
@@ -87,7 +88,7 @@ export function LeagueOverviewScreen(): React.JSX.Element {
     ).start();
   }, []);
 
-  if (isLoading || !league || !leagueFounder || !leagueSeasons || !leagueTeams) {
+  if (isLoading || !league || !leagueFounder) {
     return (
       <LeagueOverviewScreenSkeleton
         theme={theme}
@@ -159,14 +160,27 @@ export function LeagueOverviewScreen(): React.JSX.Element {
           <Text style={styles.sectionTitle}>League Seasons</Text>
         </View>
         <View>
-          <FlatList
-            data={leagueSeasons}
-            renderItem={renderSeasonCard}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.seasonScrollContainer}
-          />
+          {leagueSeasons && leagueSeasons.length > 0 ? (
+            <FlatList
+              data={leagueSeasons}
+              keyExtractor={(item) => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.seasonScrollContainer}
+              renderItem={renderSeasonCard}
+            />
+          ) : (
+            <View style={styles.seasonScrollContainer}>
+              <EmptySectionComponent
+                iconName="calendar-plus"
+                title="Sin Temporadas Activas"
+                description="Esta liga aún no tiene temporadas programadas"
+                theme={theme}
+                themeMode={themeMode}
+                screenWidth={width}
+              />
+            </View>
+          )}
         </View>
 
         {/* Teams Carousel */}
@@ -174,16 +188,28 @@ export function LeagueOverviewScreen(): React.JSX.Element {
           <Text style={styles.sectionTitle}>League Teams</Text>
         </View>
         <View>
-          <FlatList
-            data={teamList}
-            renderItem={renderTeamCardComponent}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.teamScrollContainer}
-          />
+          {teamList && teamList.length > 0 ? (
+            <FlatList
+              data={teamList}
+              renderItem={renderTeamCardComponent}
+              keyExtractor={(item) => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.teamScrollContainer}
+            />
+          ) : (
+            <View style={styles.teamScrollContainer}>
+              <EmptySectionComponent
+                iconName="account-group"
+                title="Sin Equipos Registrados"
+                description="Sé el primero en unirte a esta liga con tu equipo"
+                theme={theme}
+                themeMode={themeMode}
+                screenWidth={width}
+              />
+            </View>
+          )}
         </View>
-
       </ScrollView>
     </BasketColLayout>
   );
