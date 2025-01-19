@@ -1,12 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import { ITheme } from '../../../../shared/config/theme/ITheme';
 import { ThemeMode } from '../../../../shared/store/redux/slices/theme/theme.slice';
 import { getStyles } from './styles';
 import { PlayerUserAttributeCategoryComponent } from './PlayerUserAttributeCategoryComponent';
 import { ATTRIBUTE_COLORS, AttributeColorKey } from '../../../../shared/config/theme/constants/player-user-attributes';
-import { FeedbackBannerComponent } from '../../../../shared/components/FeedbackBannerComponent';
 
 type AttributesSectionComponentProps = {
   theme: ITheme;
@@ -26,17 +25,20 @@ export function AttributesSectionComponent({
 
   if (isMissingAttributes || processedAttributes === null) {
     return (
-      <FeedbackBannerComponent
-        theme={theme}
-        themeMode={themeMode}
-        subtitle="¡Únete al DRAFT!"
-        description="Para desbloquear tus atributos de jugador, necesitas participar en una edición del DRAFT de la plataforma."
-        accentColor={theme.colors.primary}
-        primaryAction={{
-          label: 'Explorar DRAFT',
-          onPress: () => console.log('Navigate to DRAFT'),
-        }}
-      />
+      <View style={styles.emptySectionContainer}>
+        <View style={styles.card}>
+          <View style={styles.brandContainer}>
+            <Text style={styles.brandText}>BasketCol</Text>
+          </View>
+          <Text style={styles.title}>¡Únete al DRAFT!</Text>
+          <Text style={styles.description}>
+            Para desbloquear tus atributos de jugador, necesitas participar en una edición del DRAFT de la plataforma.
+          </Text>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Explorar DRAFT</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 

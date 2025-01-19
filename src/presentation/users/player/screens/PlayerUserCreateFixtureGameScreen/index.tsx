@@ -14,6 +14,7 @@ export function PlayerUserCreateFixtureGameScreen() {
       <View
         style={{
           padding: 15,
+          backgroundColor: theme.colors.background,
         }}
       >
         <FeedbackBannerComponent

@@ -17,7 +17,7 @@ import { useFindAllLeagueTeamsByLeagueId } from '../league-team/hooks/tan-stack-
 import { findAllLeagueTeamsByLeagueIdUseCase } from '../../../../basketCol/competitions/league/league-team/infrastructure/dependency-injection';
 
 export const useLeagueOverviewScreenLogic = () => {
-  const { theme } = useSelector((state: RootState) => state.theme);
+  const { theme, themeMode } = useSelector((state: RootState) => state.theme);
   const { width } = Dimensions.get('window');
   const navigation = useNavigation<NavigationProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueOverviewScreen'>>();
   const { params } = useRoute<RouteProp<PlayerUserCompetitionsStackNavigatorParamList, 'leagueOverviewScreen'>>();
@@ -54,6 +54,7 @@ export const useLeagueOverviewScreenLogic = () => {
       teamList: dataLeagueTeams.teamList,
     },
     theme,
+    themeMode,
     width,
     navigation,
   };
