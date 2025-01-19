@@ -31,7 +31,7 @@ export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
     handleReload,
   } = usePlayerUserProfileOverviewScreenLogic();
 
-  if (isLoading || !authenticatedUser || !teamActivePlayer || !teamActivePlayer.playerUserInfo) {
+  if (isLoading || !authenticatedUser) {
     return <PlayerUserProfileOverviewScreenSkeleton theme={theme} themeMode={themeMode} />;
   }
 
@@ -59,9 +59,11 @@ export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
     <BasketColLayout>
       <ScrollView style={styles.container}>
         <PlayerUserCardComponent
-          playerUserDto={teamActivePlayer.playerUserInfo}
-          position={teamActivePlayer.teamPlayer?.position || ''}
-          teamLogo={teamActivePlayer.teamInfo?.logo || null}
+          firstName={authenticatedUser.name.firstName}
+          lastName={authenticatedUser.name.lastName}
+          profileImage={authenticatedUser.profileImage}
+          position={!teamActivePlayer ? 'N/A' : teamActivePlayer.teamPlayer?.position || ''}
+          teamLogo={!teamActivePlayer ? null : teamActivePlayer.teamInfo?.logo ?? null}
           appTheme={theme}
           themeMode={themeMode}
         />

@@ -6,6 +6,7 @@ import { ThemeMode } from '../../../../shared/store/redux/slices/theme/theme.sli
 import { getStyles } from './styles';
 import { PlayerUserAttributeCategoryComponent } from './PlayerUserAttributeCategoryComponent';
 import { ATTRIBUTE_COLORS, AttributeColorKey } from '../../../../shared/config/theme/constants/player-user-attributes';
+import { FeedbackBannerComponent } from '../../../../shared/components/FeedbackBannerComponent';
 
 type AttributesSectionComponentProps = {
   theme: ITheme;
@@ -20,7 +21,24 @@ export function AttributesSectionComponent({
 }: AttributesSectionComponentProps): React.JSX.Element {
   const styles = getStyles(theme, themeMode);
 
-  if (processedAttributes === null) return <></>;
+  // Verifica si el usuario tiene todos los atributos necesarios
+  const isMissingAttributes = Object.values(processedAttributes ?? {}).some((value) => value === null);
+
+  if (isMissingAttributes || processedAttributes === null) {
+    return (
+      <FeedbackBannerComponent
+        theme={theme}
+        themeMode={themeMode}
+        subtitle="¡Únete al DRAFT!"
+        description="Para desbloquear tus atributos de jugador, necesitas participar en una edición del DRAFT de la plataforma."
+        accentColor={theme.colors.primary}
+        primaryAction={{
+          label: 'Explorar DRAFT',
+          onPress: () => console.log('Navigate to DRAFT'),
+        }}
+      />
+    );
+  }
 
   return (
     <View style={styles.attributesContainer}>
