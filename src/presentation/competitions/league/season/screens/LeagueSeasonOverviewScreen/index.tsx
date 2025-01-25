@@ -67,7 +67,9 @@ export function LeagueSeasonOverviewScreen(): React.JSX.Element {
   const renderMVPCard = ({ item }: { item: PlayerUserHttpResponseDTO }) => (
     <View style={styles.mvpCard}>
       <PlayerUserCardComponent
-        playerUserDto={item}
+        firstName={item.name.firstName}
+        lastName={item.name.lastName}
+        profileImage={item.profileImage}
         appTheme={theme}
         position={getPlayerAwardPositionFn(item.id)}
         teamLogo={null}
