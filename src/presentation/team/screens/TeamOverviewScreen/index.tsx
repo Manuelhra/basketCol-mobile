@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -17,10 +17,20 @@ import { TeamOverviewScreenSkeleton } from './TeamOverviewScreenSkeleton';
 import { useTeamOverviewScreenLogic } from '../../hooks/useTeamOverviewScreenLogic';
 import { RootState } from '../../../shared/store/redux/rootReducer';
 import { FeedbackBannerComponent } from '../../../shared/components/FeedbackBannerComponent';
+import { Section, SectionTabsComponent } from '../../../shared/components/SectionTabsComponent';
+import { TeamStatsSectionComponent } from '../../components/TeamStatsSectionComponent';
+
+const TEAM_SECTIONS: Section[] = [
+  { id: 'roster', title: 'Team Roster' },
+  { id: 'stats', title: 'Team Stats' },
+  { id: 'schedule', title: 'Schedule' },
+  { id: 'achievements', title: 'Achievements' },
+];
 
 export function TeamOverviewScreen() {
   const { theme, themeMode } = useSelector((state: RootState) => state.theme);
   const styles = getStyles(theme, themeMode);
+  const [activeSection, setActiveSection] = useState('roster');
 
   const {
     team,
@@ -33,12 +43,8 @@ export function TeamOverviewScreen() {
     handleReload,
   } = useTeamOverviewScreenLogic();
 
-  // Comprehensive loading and error handling
-  if (isLoading) {
-    return <TeamOverviewScreenSkeleton />;
-  }
-
-  // Error handling
+  // Loading and error handling remain the same...
+  if (isLoading) return <TeamOverviewScreenSkeleton />;
   if (requestError) {
     return (
       <ScrollView style={styles.container}>
@@ -54,31 +60,21 @@ export function TeamOverviewScreen() {
     );
   }
 
-  // Feedback user
+  // Feedback user section remains the same...
   if (!team || !teamAllTimeStats || !teamPlayerUserList) {
     return (
       <BasketColLayout>
-        <View style={{
-          flex: 1,
-          padding: 15,
-          backgroundColor: theme.colors.background,
-        }}
-        >
+        <View style={styles.container}>
           <FeedbackBannerComponent
             theme={theme}
             themeMode={themeMode}
             subtitle="¡Únete a un Equipo!"
             description="Para competir en BasketCol necesitas ser parte de un equipo. Puedes crear tu propio equipo y ser capitán o unirte a uno existente. ¡Los mejores jugadores brillan en equipo! 🏀"
-            accentColor={theme.colors.tertiary} // Usando un color diferente al primary para destacar
+            accentColor={theme.colors.tertiary}
             primaryAction={{
               label: '',
               onPress: () => {},
-            // onPress: handleCreateTeam,
             }}
-/*             secondaryAction={{
-              label: 'Explorar Equipos',
-            onPress: handleExploreTeams,
-            }} */
           />
         </View>
       </BasketColLayout>
@@ -104,40 +100,15 @@ export function TeamOverviewScreen() {
   );
 
   const renderTeamStats = () => (
-    <View style={styles.teamStatsContainer}>
-      <View style={styles.statBox}>
-        <Text style={styles.statValue}>
-          {teamAllTimeStats.totalGamesPlayed}
-        </Text>
-        <Text style={styles.statLabel}>Total Games</Text>
-      </View>
-      <View style={styles.statBox}>
-        <Text style={styles.statValue}>
-          {teamAllTimeStats.totalGamesWon}
-        </Text>
-        <Text style={styles.statLabel}>Games Won</Text>
-      </View>
-      <View style={styles.statBox}>
-        <Text style={styles.statValue}>
-          {((teamAllTimeStats.totalGamesWon
-            / teamAllTimeStats.totalGamesPlayed) * 100).toFixed(1)}
-          %
-        </Text>
-        <Text style={styles.statLabel}>Win Rate</Text>
-      </View>
-      <View style={styles.statBox}>
-        <Text style={styles.statValue}>
-          {(teamAllTimeStats.totalPoints
-            / teamAllTimeStats.totalGamesPlayed).toFixed(1)}
-        </Text>
-        <Text style={styles.statLabel}>PPG</Text>
-      </View>
-    </View>
+    <TeamStatsSectionComponent
+      stats={teamAllTimeStats}
+      theme={theme}
+      themeMode={themeMode}
+    />
   );
 
   const renderTeamRoster = () => (
     <View style={styles.teamRosterContainer}>
-      <Text style={styles.sectionTitle}>Team Roster</Text>
       <View style={styles.playerCardGrid}>
         {teamPlayerUserList.map((teamPlayerHttpResponseDTO) => {
           const {
@@ -171,12 +142,30 @@ export function TeamOverviewScreen() {
     </View>
   );
 
+  const renderActiveSection = () => {
+    switch (activeSection) {
+      case 'roster':
+        return renderTeamRoster();
+      case 'stats':
+        return renderTeamStats();
+      default:
+        return null;
+    }
+  };
+
   return (
     <BasketColLayout>
       <ScrollView style={styles.container}>
         {renderTeamHeader()}
-        {renderTeamStats()}
-        {renderTeamRoster()}
+        <SectionTabsComponent
+          sections={TEAM_SECTIONS}
+          activeSection={activeSection}
+          onSectionChange={setActiveSection}
+          theme={theme}
+          themeMode={themeMode}
+          minTabWidth={120}
+        />
+        {renderActiveSection()}
       </ScrollView>
     </BasketColLayout>
   );
