@@ -44,33 +44,11 @@ export const getStyles = (theme: ITheme, themeMode: ThemeMode) => StyleSheet.cre
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
-  teamStatsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: theme.spacing.medium,
+  teamRosterContainer: {
+    padding: theme.spacing.large,
     backgroundColor: themeMode === 'light'
       ? theme.colors.background
       : theme.colors.secondary,
-  },
-  statBox: {
-    alignItems: 'center',
-    width: '22%',
-  },
-  statValue: {
-    fontSize: 20,
-    fontFamily: theme.fonts.bold,
-    color: themeMode === 'light'
-      ? theme.colors.primary
-      : theme.colors.accent,
-  },
-  statLabel: {
-    fontSize: 12,
-    fontFamily: theme.fonts.regular,
-    color: theme.colors.textSecondary,
-    textTransform: 'uppercase',
-  },
-  teamRosterContainer: {
-    padding: theme.spacing.large,
   },
   sectionTitle: {
     fontSize: 22,
@@ -189,5 +167,56 @@ export const getStyles = (theme: ITheme, themeMode: ThemeMode) => StyleSheet.cre
     fontSize: 10,
     fontFamily: theme.fonts.bold,
     color: theme.colors.background,
+  },
+
+  // Tab section
+  sectionTabsWrapper: {
+    backgroundColor: themeMode === 'light'
+      ? theme.colors.background
+      : theme.colors.secondary,
+    borderBottomWidth: 1,
+    borderBottomColor: themeMode === 'light'
+      ? 'rgba(0,0,0,0.1)'
+      : 'rgba(255,255,255,0.1)',
+  },
+  sectionTabsContainer: {
+    flexDirection: 'row',
+    paddingTop: theme.spacing.medium,
+  },
+  sectionTab: {
+    paddingHorizontal: theme.spacing.large,
+    paddingVertical: theme.spacing.medium,
+    position: 'relative',
+    minWidth: 120, // Asegura un ancho mínimo para cada tab
+    alignItems: 'center',
+  },
+  activeTab: {
+    backgroundColor: 'transparent',
+  },
+  sectionTabText: {
+    fontFamily: theme.fonts.bold,
+    fontSize: 16,
+    color: themeMode === 'light'
+      ? theme.colors.textSecondary
+      : 'rgba(255,255,255,0.6)',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    textAlign: 'center',
+  },
+  activeTabText: {
+    color: themeMode === 'light'
+      ? theme.colors.primary
+      : theme.colors.accent,
+  },
+  activeTabIndicator: {
+    position: 'absolute',
+    bottom: 0,
+    left: theme.spacing.large,
+    right: theme.spacing.large,
+    height: 3,
+    backgroundColor: themeMode === 'light'
+      ? theme.colors.primary
+      : theme.colors.accent,
+    borderRadius: theme.borderRadius.small,
   },
 });

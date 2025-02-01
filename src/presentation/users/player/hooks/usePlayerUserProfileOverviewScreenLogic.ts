@@ -14,6 +14,8 @@ import { getPlayerUserAttributeCategoriesUseCase } from '../../../../basketCol/u
 import { useFindTeamActivePlayer } from './tan-stack-query/useFindTeamActivePlayer';
 import { findTeamActivePlayerUseCase } from '../../../../basketCol/team/team-player/infrastructure/dependency-injection';
 import { type PlayerUserBottomNavigatorParamList } from '../navigation/PlayerUserBottomNavigator';
+import { useFindCareerStatsByPlayerUserId } from './tan-stack-query/useFindCareerStatsByPlayerUserId';
+import { findCareerStatsByPlayerUserIdUseCase } from '../../../../basketCol/users/player/career-stats/infrastructure/dependency-injection';
 
 // Función auxiliar para extraer datos de manera segura
 const safeExtractPrimitives = <T>(obj: { toPrimitives?: T } | null | undefined): T | null => obj?.toPrimitives ?? null;
@@ -59,6 +61,12 @@ export const usePlayerUserProfileOverviewScreenLogic = () => {
   );
 
   const {
+    isLoading: isLoadingCareerStats,
+    requestError: careerStatsError,
+    playerUserCareerStats,
+  } = useFindCareerStatsByPlayerUserId(findCareerStatsByPlayerUserIdUseCase, params.isMyProfileScreen ? authenticatedUser?.id ?? '' : params.playerUserId);
+
+  const {
     isLoading: isLoadingTeam,
     requestError: teamError,
     teamActivePlayer,
@@ -74,8 +82,8 @@ export const usePlayerUserProfileOverviewScreenLogic = () => {
   };
 
   // Combinar estados de carga y errores
-  const isLoading = isLoadingAttributes || isLoadingTeam;
-  const requestError = attributesError || teamError;
+  const isLoading = isLoadingAttributes || isLoadingTeam || isLoadingCareerStats;
+  const requestError = attributesError || teamError || careerStatsError;
 
   return {
     theme,
@@ -89,6 +97,7 @@ export const usePlayerUserProfileOverviewScreenLogic = () => {
       playerUserInfo: safeExtractPrimitives(teamActivePlayer.playerUserInfo),
     },
     authenticatedUser,
+    playerUserCareerStats: playerUserCareerStats?.toPrimitives,
     handleReload,
   };
 };

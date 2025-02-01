@@ -1,7 +1,6 @@
-import React from 'react';
-import { View, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView } from 'react-native';
 
-import { PlayerUserStatsCardComponent } from './PlayerUserStatsCardComponent';
 import { AttributesSectionComponent } from './AttributesSectionComponent';
 import { ErrorModalComponent } from '../../../../shared/components/ErrorModalComponent';
 import { getStyles } from './styles';
@@ -9,17 +8,21 @@ import { usePlayerUserProfileOverviewScreenLogic } from '../../hooks/usePlayerUs
 import { PlayerUserProfileOverviewScreenSkeleton } from './PlayerUserProfileOverviewScreenSkeleton';
 import { PlayerUserCardComponent } from '../../components/PlayerUserCardComponent';
 import { BasketColLayout } from '../../../../shared/layout/BasketColLayout';
+import { Section, SectionTabsComponent } from '../../../../shared/components/SectionTabsComponent';
+import { CareerStatsComponent } from '../../components/CareerStatsComponent';
 
-const MOCK_STATS = {
-  PTS: 0,
-  AST: 0,
-  REB: 0,
-  GMS: 0,
-} as const;
+const PLAYER_SECTIONS: Section[] = [
+  { id: 'attributes', title: 'Attributes' },
+  { id: 'stats', title: 'Player Stats' },
+  { id: 'multimedia', title: 'Multimedia' },
+  { id: 'achievements', title: 'Achievements' },
+];
 
 const ERROR_MESSAGE = 'Lo sentimos, ha ocurrido un error al cargar la información. Por favor, inténtalo de nuevo más tarde.';
 
 export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
+  const [activeSection, setActiveSection] = useState('attributes');
+
   const {
     themeMode,
     theme,
@@ -28,18 +31,16 @@ export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
     teamActivePlayer,
     authenticatedUser,
     processedAttributes,
+    playerUserCareerStats,
     handleReload,
   } = usePlayerUserProfileOverviewScreenLogic();
 
-  if (isLoading || !authenticatedUser) {
+  if (isLoading || !authenticatedUser || !playerUserCareerStats) {
     return <PlayerUserProfileOverviewScreenSkeleton theme={theme} themeMode={themeMode} />;
   }
 
-  // TODO: Agregar id en los params de la ruta y enviaselo a la lógica
-  // TODO: Crear los DTOS Necesarios para tipar
   const styles = getStyles(theme, themeMode);
 
-  // Render with error modal if there's an error
   if (requestError !== null) {
     return (
       <ScrollView style={styles.container}>
@@ -55,36 +56,57 @@ export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
     );
   }
 
+  const renderActiveSection = () => {
+    switch (activeSection) {
+      case 'attributes':
+        return (
+          <AttributesSectionComponent
+            theme={theme}
+            themeMode={themeMode}
+            processedAttributes={processedAttributes}
+          />
+        );
+      case 'stats':
+        return (
+          <CareerStatsComponent
+            theme={theme}
+            themeMode={themeMode}
+            careerStats={playerUserCareerStats}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <BasketColLayout>
       <ScrollView style={styles.container}>
         <PlayerUserCardComponent
-          firstName={authenticatedUser.name.firstName}
-          lastName={authenticatedUser.name.lastName}
-          profileImage={authenticatedUser.profileImage}
+          firstName={!teamActivePlayer ? authenticatedUser.name.firstName : teamActivePlayer.playerUserInfo?.name.firstName || ''}
+          lastName={!teamActivePlayer ? authenticatedUser.name.lastName : teamActivePlayer.playerUserInfo?.name.lastName || ''}
+          profileImage={!teamActivePlayer ? authenticatedUser.profileImage : teamActivePlayer.playerUserInfo?.profileImage || {
+            alt: 'image',
+            dimensions: { height: 0, width: 0 },
+            uploadedAt: '',
+            url: '',
+          }}
           position={!teamActivePlayer ? 'N/A' : teamActivePlayer.teamPlayer?.position || ''}
           teamLogo={!teamActivePlayer ? null : teamActivePlayer.teamInfo?.logo ?? null}
           appTheme={theme}
           themeMode={themeMode}
         />
 
-        <View style={styles.statsOverview}>
-          {Object.entries(MOCK_STATS).map(([title, value]) => (
-            <PlayerUserStatsCardComponent
-              key={title}
-              title={title.toUpperCase()}
-              value={value}
-              appTheme={theme}
-              themeMode={themeMode}
-            />
-          ))}
-        </View>
-
-        <AttributesSectionComponent
+        <SectionTabsComponent
+          sections={PLAYER_SECTIONS}
+          activeSection={activeSection}
+          onSectionChange={setActiveSection}
           theme={theme}
           themeMode={themeMode}
-          processedAttributes={processedAttributes}
+          minTabWidth={120}
         />
+
+        {renderActiveSection()}
       </ScrollView>
     </BasketColLayout>
   );
