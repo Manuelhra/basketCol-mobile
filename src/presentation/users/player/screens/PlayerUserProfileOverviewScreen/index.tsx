@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ScrollView } from 'react-native';
 
 import { AttributesSectionComponent } from './AttributesSectionComponent';
@@ -10,6 +10,8 @@ import { PlayerUserCardComponent } from '../../components/PlayerUserCardComponen
 import { BasketColLayout } from '../../../../shared/layout/BasketColLayout';
 import { Section, SectionTabsComponent } from '../../../../shared/components/SectionTabsComponent';
 import { CareerStatsComponent } from '../../components/CareerStatsComponent';
+import { SlideModalComponent } from '../../../../shared/components/SlideModalComponent';
+import { SettingsModalContentComponent } from '../../../../shared/components/SettingsModalContentComponent';
 
 const PLAYER_SECTIONS: Section[] = [
   { id: 'attributes', title: 'Attributes' },
@@ -21,8 +23,6 @@ const PLAYER_SECTIONS: Section[] = [
 const ERROR_MESSAGE = 'Lo sentimos, ha ocurrido un error al cargar la información. Por favor, inténtalo de nuevo más tarde.';
 
 export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
-  const [activeSection, setActiveSection] = useState('attributes');
-
   const {
     themeMode,
     theme,
@@ -32,6 +32,12 @@ export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
     authenticatedUser,
     processedAttributes,
     playerUserCareerStats,
+    settingsCategories,
+    activeSection,
+    showSettingsModal,
+    activeSubcategoryId,
+    setActiveSection,
+    setShowSettingsModal,
     handleReload,
   } = usePlayerUserProfileOverviewScreenLogic();
 
@@ -80,7 +86,25 @@ export function PlayerUserProfileOverviewScreen(): React.JSX.Element {
   };
 
   return (
-    <BasketColLayout>
+    <BasketColLayout
+      rightIcons={[
+        {
+          icon: 'menu',
+          action: () => setShowSettingsModal(true),
+        },
+      ]}
+    >
+      <SlideModalComponent
+        isVisible={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
+      >
+        <SettingsModalContentComponent
+          theme={theme}
+          categories={settingsCategories}
+          activeSubcategoryId={activeSubcategoryId}
+        />
+      </SlideModalComponent>
+
       <ScrollView style={styles.container}>
         <PlayerUserCardComponent
           firstName={!teamActivePlayer ? authenticatedUser.name.firstName : teamActivePlayer.playerUserInfo?.name.firstName || ''}

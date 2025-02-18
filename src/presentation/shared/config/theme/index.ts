@@ -8,8 +8,11 @@ const lightTheme: ITheme = {
     quaternary: '#9C27B0', // Morado vibrante
     accent: '#FFCC00', // Amarillo intenso
     background: '#FFFFFF',
+    backgroundSelected: '#F5F5F5',
     text: '#000000',
     textSecondary: '#555555',
+    textDisabled: '#999999',
+    divider: '#DBDBDB',
     success: '#00CC66', // Verde brillante
     error: '#FF3333', // Rojo intenso
     warning: '#FF9900', // Naranja advertencia
@@ -40,8 +43,11 @@ const darkTheme: ITheme = {
     quaternary: '#9C27B0', // Morado neón
     accent: '#FFD700', // Dorado
     background: '#121212',
+    backgroundSelected: '#1E1E1E',
     text: '#FFFFFF',
     textSecondary: '#BBBBBB',
+    textDisabled: '#666666',
+    divider: '#262626',
     success: '#00FF7F', // Verde neón
     error: '#FF4444', // Rojo neón
     warning: '#FFA500', // Naranja advertencia
