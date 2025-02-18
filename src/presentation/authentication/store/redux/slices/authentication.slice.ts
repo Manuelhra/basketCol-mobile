@@ -43,6 +43,9 @@ export const checkAuthenticationToken = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
   'authentication/logoutUser',
   async (_, { rejectWithValue }) => {
+    // Añadir un retraso de 2 segundos
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     const result = await logoutUserUseCase.execute();
 
     if (result.isLeft) {

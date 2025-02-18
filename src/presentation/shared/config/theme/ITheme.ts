@@ -3,10 +3,13 @@ type ColorScheme = {
   tertiary: string;
   quaternary: string;
   background: string;
+  backgroundSelected: string;
   text: string;
   secondary: string;
   accent: string;
   textSecondary: string;
+  textDisabled: string;
+  divider: string;
   success: string;
   error: string;
   warning: string;

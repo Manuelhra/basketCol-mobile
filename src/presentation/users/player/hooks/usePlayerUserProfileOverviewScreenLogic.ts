@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   CommonActions,
   NavigationProp,
@@ -16,6 +16,8 @@ import { findTeamActivePlayerUseCase } from '../../../../basketCol/team/team-pla
 import { type PlayerUserBottomNavigatorParamList } from '../navigation/PlayerUserBottomNavigator';
 import { useFindCareerStatsByPlayerUserId } from './tan-stack-query/useFindCareerStatsByPlayerUserId';
 import { findCareerStatsByPlayerUserIdUseCase } from '../../../../basketCol/users/player/career-stats/infrastructure/dependency-injection';
+import { AppDispatch } from '../../../shared/store/redux/store';
+import { logoutUser } from '../../../authentication/store/redux/slices/authentication.slice';
 
 // Función auxiliar para extraer datos de manera segura
 const safeExtractPrimitives = <T>(obj: { toPrimitives?: T } | null | undefined): T | null => obj?.toPrimitives ?? null;
@@ -34,10 +36,63 @@ const extractAttributes = (attributes: BaseAttributes | null | undefined): Recor
 };
 
 export const usePlayerUserProfileOverviewScreenLogic = () => {
+  const [activeSection, setActiveSection] = useState('attributes');
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const { theme, themeMode } = useSelector((state: RootState) => state.theme);
-  const { authenticatedUser } = useSelector((state: RootState) => state.authentication);
+  const { authenticatedUser, loading: SigningOut } = useSelector((state: RootState) => state.authentication);
   const navigation = useNavigation<NavigationProp<PlayerUserBottomNavigatorParamList, 'myProfileScreen'>>();
   const { params, name } = useRoute<RouteProp<PlayerUserBottomNavigatorParamList, 'myProfileScreen'>>();
+  const dispatch = useDispatch<AppDispatch>();
+  const [activeSubcategoryId, setActiveSubcategoryId] = useState<string | undefined>();
+
+  const handleLogout = async () => {
+    setActiveSubcategoryId('1-2'); // ID del botón de logout
+    try {
+      await dispatch(logoutUser());
+    } finally {
+      setActiveSubcategoryId(undefined);
+    }
+  };
+
+  const settingsCategories = [
+    {
+      id: '2',
+      title: 'Preferencias',
+      subcategories: [
+        {
+          id: '2-1',
+          title: 'Notificaciones',
+          icon: 'bell',
+          // action: () => handleNotificationSettings(),
+        },
+        {
+          id: '2-2',
+          title: 'Tema',
+          icon: 'palette',
+          // action: () => handleThemeChange(),
+        },
+      ],
+    },
+    {
+      id: '1',
+      title: 'Inicio de sesión',
+      subcategories: [
+        {
+          id: '1-1',
+          title: 'Cambiar contraseña',
+          icon: 'key',
+          // action: () => handlePasswordChange(),
+        },
+        {
+          id: '1-2',
+          title: SigningOut ? 'Cerrando sesión...' : 'Cerrar sesión',
+          icon: 'logout',
+          isLoading: SigningOut,
+          action: handleLogout,
+        },
+      ],
+    },
+  ];
 
   const handleReload = useCallback(() => {
     navigation.dispatch(
@@ -98,6 +153,12 @@ export const usePlayerUserProfileOverviewScreenLogic = () => {
     },
     authenticatedUser,
     playerUserCareerStats: playerUserCareerStats?.toPrimitives,
+    settingsCategories,
+    activeSection,
+    showSettingsModal,
+    activeSubcategoryId,
+    setShowSettingsModal,
+    setActiveSection,
     handleReload,
   };
 };
